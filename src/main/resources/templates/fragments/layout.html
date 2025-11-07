@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/config.js}"></script>
+    <script th:src="@{/js/components.js}"></script>
+</head>
+<body>
+    <nav th:fragment="nav(role)">
+        <div class="nav-brand"> Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:if="${role} == 'STUDENT'" th:href="@{/student/dashboard}">Dashboard</a>
+            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/dashboard}">Dashboard</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
+</body>
+</html>

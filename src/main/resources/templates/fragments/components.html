@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="subject-card(subject)" 
+         class="subject-card" 
+         th:attr="data-subject=${subject}">
+        <div class="subject-icon"></div>
+        <h3 th:text="${subject}">Subject</h3>
+        <button class="btn btn-primary">Select</button>
+    </div>
+</body>
+</html>
