@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Take Quiz')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Quiz</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
-    <div class="container">
-        <div style="margin-bottom: 2rem;">
-            <a th:href="@{/student/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/student/dashboard}">Dashboard</a>
+            <a th:href="@{/student/results}">My Results</a>
+            <a th:href="@{/logout}">Logout</a>
         </div>
-        <div class="card" style="margin-bottom: 2rem;">
-            <h1 th:text="">Quiz Title</h1>
-            <p style="color: #64748b; margin-top: 0.5rem;">Duration: <span th:text="">15</span> minutes</p>
+    </nav>
+    <div class="container">
+        <div class="mb-2">
+            <a th:href="@{/student/dashboard}" class="back-link">← Back to Dashboard</a>
+        </div>
+        <div class="card mb-3">
+            <h1 th:text="${quiz.title}">Quiz Title</h1>
+            <p class="text-muted">Duration: <span th:text="${quiz.duration}">15</span> minutes</p>
         </div>
         <form th:action="@{/student/quiz/submit}" method="post">
-            <input type="hidden" name="quizId" th:value="">
-            <div th:each="question, iterStat : " class="card" style="margin-bottom: 1.5rem;">
-                <h3 style="margin-bottom: 1rem;">Question <span th:text="">1</span></h3>
-                <p style="font-weight: 500; margin-bottom: 1rem;" th:text="">Question text</p>
-                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer;">
-                        <input type="radio" th:name="'answers[' +  + ']'" value="A" required style="margin-right: 0.75rem;">
-                        <span th:text="'A. ' + ">Option A</span>
+            <input type="hidden" name="quizId" th:value="${quiz.id}">
+            <div th:each="question, iterStat : ${questions}" class="question-block">
+                <h3>Question <span th:text="${iterStat.index + 1}">1</span></h3>
+                <p class="question-text" th:text="${question.text}">Question text</p>
+                <div class="options-list">
+                    <label class="option-label">
+                        <input type="radio" th:name="'answer_' + ${question.id}" value="A" required>
+                        <span th:text="'A. ' + ${question.optionA}">Option A</span>
                     </label>
-                    <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer;">
-                        <input type="radio" th:name="'answers[' +  + ']'" value="B" required style="margin-right: 0.75rem;">
-                        <span th:text="'B. ' + ">Option B</span>
+                    <label class="option-label">
+                        <input type="radio" th:name="'answer_' + ${question.id}" value="B" required>
+                        <span th:text="'B. ' + ${question.optionB}">Option B</span>
                     </label>
-                    <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer;">
-                        <input type="radio" th:name="'answers[' +  + ']'" value="C" required style="margin-right: 0.75rem;">
-                        <span th:text="'C. ' + ">Option C</span>
+                    <label class="option-label">
+                        <input type="radio" th:name="'answer_' + ${question.id}" value="C" required>
+                        <span th:text="'C. ' + ${question.optionC}">Option C</span>
                     </label>
-                    <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer;">
-                        <input type="radio" th:name="'answers[' +  + ']'" value="D" required style="margin-right: 0.75rem;">
-                        <span th:text="'D. ' + ">Option D</span>
+                    <label class="option-label">
+                        <input type="radio" th:name="'answer_' + ${question.id}" value="D" required>
+                        <span th:text="'D. ' + ${question.optionD}">Option D</span>
                     </label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Submit Quiz</button>
+            <button type="submit" class="btn btn-primary w-full" style="padding: 1rem; font-size: 1rem;">Submit Quiz</button>
         </form>
     </div>
 </body>

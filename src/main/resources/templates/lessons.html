@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Lessons')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/config.js}"></script>
+    <script th:src="@{/js/components.js}"></script>
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/student/dashboard}">Dashboard</a>
+            <a th:href="@{/student/results}">My Results</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
     <div class="container">
-        <div style="margin-bottom: 2rem;">
-            <a th:href="@{/student/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+        <div class="mb-2">
+            <a th:href="@{/student/dashboard}" class="back-link">← Back to Dashboard</a>
         </div>
-        <h1 style="margin-bottom: 1rem;" th:attr="data-subject=">
-            <span class="subject-icon"></span>
-            <span th:text="">Subject</span> Lessons
-        </h1>
-        <div th:if="" class="card">
-            <p style="text-align: center; color: #64748b;">No lessons available yet.</p>
+        <div class="page-header">
+            <h1 th:attr="data-subject=${subject}">
+                <span class="subject-icon"></span>
+                <span style="text-transform: capitalize;" th:text="${subject}">Subject</span> Lessons
+            </h1>
         </div>
-        <div th:each="lesson, iterStat : " class="card" th:attr="data-subject=">
-            <div style="display: flex; justify-content: space-between; align-items: start;">
-                <div style="flex: 1;">
-                    <h3 th:text=" + '. ' + ">Lesson Title</h3>
-                    <p style="color: #64748b; margin-top: 1rem; line-height: 1.6;" th:text="">Lesson content</p>
-                    <div th:if="" style="margin-top: 1rem;">
-                        <a th:href="" target="_blank" style="color: #3B82F6; text-decoration: none;"> Watch Video</a>
-                    </div>
-                </div>
+        <div th:if="${lessons == null or lessons.isEmpty()}" class="card">
+            <p class="text-center text-muted">No lessons available yet.</p>
+        </div>
+        <div th:each="lesson, iterStat : ${lessons}" class="card" th:attr="data-subject=${subject}">
+            <h3 th:text="${iterStat.index + 1} + '. ' + ${lesson.title}">Lesson Title</h3>
+            <p class="lesson-content mt-2" th:text="${lesson.content}">Lesson content</p>
+            <div th:if="${lesson.videoUrl != null and !lesson.videoUrl.isEmpty()}" class="mt-2">
+                <a th:href="${lesson.videoUrl}" target="_blank" class="video-link">Watch Video</a>
             </div>
         </div>
-        <div th:if="" style="margin-top: 2rem;">
-            <h2 style="margin-bottom: 1rem;">Take a Quiz</h2>
-            <div style="display: grid; gap: 1rem;">
-                <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/student/quiz?id=1'|">
-                    <h4>Quick Quiz - Test Your Knowledge</h4>
-                    <p style="color: #64748b; margin-top: 0.5rem;">5 questions  15 minutes</p>
-                </div>
+        <div th:if="${quizzes != null and !quizzes.isEmpty()}" class="mt-4">
+            <h2 class="section-title">Available Quizzes</h2>
+            <div th:each="quiz : ${quizzes}" class="card" style="cursor: pointer;" th:onclick="|window.location.href='/student/quiz?id=' + ${quiz.id}|">
+                <h3 th:text="${quiz.title}">Quiz Title</h3>
+                <p class="text-muted">
+                    <span th:text="${quiz.duration}">15</span> minutes
+                </p>
             </div>
         </div>
     </div>

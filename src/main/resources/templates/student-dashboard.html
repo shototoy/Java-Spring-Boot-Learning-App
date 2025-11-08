@@ -1,32 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Student Dashboard')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/config.js}"></script>
+    <script th:src="@{/js/components.js}"></script>
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/student/dashboard}">Dashboard</a>
+            <a th:href="@{/student/results}">My Results</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
     <div class="container">
-        <h1 style="margin-bottom: 2rem;">Welcome, <span th:text="">Student</span>! </h1>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-            <div th:replace="~{fragments/components :: stat-card('Quizzes Taken', , '')}"></div>
-            <div th:replace="~{fragments/components :: stat-card('Lessons Completed', , '')}"></div>
+        <div class="page-header">
+            <h1>Welcome, <span th:text="${userName}">Student</span></h1>
         </div>
-        <h2 style="margin-bottom: 1.5rem;">Choose a Subject</h2>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <h4>Quizzes Taken</h4>
+                <div class="stat-value" th:text="${totalQuizzes}">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Lessons Completed</h4>
+                <div class="stat-value" th:text="${totalLessons}">0</div>
+            </div>
+        </div>
+        <h2 class="section-title">Choose a Subject</h2>
         <div class="subject-grid">
-            <div th:replace="~{fragments/components :: subject-card('math', 'Mathematics')}"></div>
-            <div th:replace="~{fragments/components :: subject-card('english', 'English')}"></div>
-            <div th:replace="~{fragments/components :: subject-card('science', 'Science')}"></div>
+            <div class="subject-card" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|">
+                <div class="subject-icon"></div>
+                <h3>Mathematics</h3>
+                <button class="btn btn-primary">View Lessons</button>
+            </div>
+            <div class="subject-card" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|">
+                <div class="subject-icon"></div>
+                <h3>English</h3>
+                <button class="btn btn-primary">View Lessons</button>
+            </div>
+            <div class="subject-card" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|">
+                <div class="subject-icon"></div>
+                <h3>Science</h3>
+                <button class="btn btn-primary">View Lessons</button>
+            </div>
         </div>
-        <div th:if="" style="margin-top: 3rem;">
-            <h2 style="margin-bottom: 1.5rem;">Recent Quiz Results</h2>
-            <div th:each="attempt : " class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}" class="mt-4">
+            <h2 class="section-title">Recent Quiz Results</h2>
+            <div th:each="attempt : ${recentAttempts}" class="card">
+                <div class="flex-between">
                     <div>
-                        <h4>Quiz #<span th:text="">1</span></h4>
-                        <p style="color: #64748b; margin-top: 0.5rem;" th:text="">Date</p>
+                        <h4>Quiz #<span th:text="${attempt.quizId}">1</span></h4>
+                        <p class="text-muted" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}">Date</p>
                     </div>
                     <div style="text-align: right;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #10B981;" th:text="">0</span>
-                        <span style="color: #64748b;">/</span>
-                        <span style="color: #64748b;">5</span>
+                        <span style="font-size: 1.5rem; font-weight: 600; color: #10b981;" th:text="${attempt.score}">0</span>
+                        <span class="text-muted"> / 5</span>
                     </div>
                 </div>
             </div>

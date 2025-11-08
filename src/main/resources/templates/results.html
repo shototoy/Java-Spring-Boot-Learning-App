@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Quiz Results')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/config.js}"></script>
+    <script th:src="@{/js/components.js}"></script>
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/student/dashboard}">Dashboard</a>
+            <a th:href="@{/student/results}">My Results</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
     <div class="container">
-        <div style="margin-bottom: 2rem;">
-            <a th:href="@{/student/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+        <div class="mb-2">
+            <a th:href="@{/student/dashboard}" class="back-link">← Back to Dashboard</a>
         </div>
-        <h1 style="margin-bottom: 2rem;">My Quiz Results </h1>
-        <div th:if="" class="card">
-            <p style="text-align: center; color: #64748b;">No quiz attempts yet. Take your first quiz!</p>
+        <div class="page-header">
+            <h1>My Quiz Results</h1>
         </div>
-        <div th:each="attempt : " class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div th:if="${attempts == null or attempts.isEmpty()}" class="card">
+            <p class="text-center text-muted">No quiz attempts yet. Take your first quiz!</p>
+        </div>
+        <div th:each="attempt : ${attempts}" class="card" th:attr="data-subject=${quizSubjects.get(attempt.quizId)}">
+            <div class="flex-between">
                 <div>
-                    <h3>Quiz #<span th:text="">1</span></h3>
-                    <p style="color: #64748b; margin-top: 0.5rem;" th:text="">Date</p>
+                    <h3 th:text="${quizTitles.get(attempt.quizId)}">Quiz Title</h3>
+                    <p class="text-muted" th:text="${#temporals.format(attempt.completedAt, 'MMMM dd, yyyy - HH:mm')}">Date</p>
                 </div>
                 <div style="text-align: right;">
-                    <div style="font-size: 2rem; font-weight: 700; color: #10B981;">
-                        <span th:text="">0</span>
+                    <div style="font-size: 2rem; font-weight: 600; color: #10b981;">
+                        <span th:text="${attempt.score}">0</span>
                         <span style="font-size: 1.5rem; color: #64748b;">/5</span>
                     </div>
-                    <div th:with="percentage=" style="margin-top: 0.5rem;">
-                        <span th:text=" + '%'" style="color: #64748b; font-size: 0.875rem;">0%</span>
+                    <div th:with="percentage=${attempt.score * 20}">
+                        <span th:text="${percentage} + '%'" class="text-muted">0%</span>
                     </div>
                 </div>
             </div>
