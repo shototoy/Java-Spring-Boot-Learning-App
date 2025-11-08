@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Login')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Learning App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div class="card" style="width: 400px; max-width: 90%;">
-            <h1 style="text-align: center; margin-bottom: 2rem; color: #3B82F6;">🎓 Grade 6 Learning</h1>
-            <h2 style="text-align: center; margin-bottom: 1.5rem;">Login</h2>
-            <div th:if="${error}" style="background: #fee; color: #c33; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;">
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Grade 6 Learning</h1>
+            <h2>Login</h2>
+            <div th:if="${error}" class="alert alert-error">
                 <span th:text="${error}">Error message</span>
+            </div>
+            <div th:if="${param.registered}" class="alert alert-success">
+                Registration successful! Please login.
             </div>
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
@@ -18,15 +26,15 @@
                     <label>Password</label>
                     <input type="password" name="password" required placeholder="Enter password">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+                <button type="submit" class="btn btn-primary w-full">Login</button>
             </form>
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <a th:href="@{/register}" style="color: #3B82F6; text-decoration: none;">Don't have an account? Register</a>
+            <div class="text-center mt-3">
+                <a th:href="@{/register}" class="link">Don't have an account? Register</a>
             </div>
-            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
-                <p style="font-size: 0.875rem; color: #64748b; text-align: center;">Demo Accounts:</p>
-                <p style="font-size: 0.875rem; color: #64748b; text-align: center;">Teacher: teacher@school.com / teacher123</p>
-                <p style="font-size: 0.875rem; color: #64748b; text-align: center;">Student: john@student.com / student123</p>
+            <div class="mt-4" style="padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                <p class="text-muted text-center">Demo Accounts</p>
+                <p class="text-muted text-center">Teacher: teacher@school.com / teacher123</p>
+                <p class="text-muted text-center">Student: john@student.com / student123</p>
             </div>
         </div>
     </div>
