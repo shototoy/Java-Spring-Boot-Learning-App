@@ -1,0 +1,290 @@
+/* ========================================
+   PALETTE 1: SUNSET CORAL (DEFAULT)
+   Modern, warm, energetic
+   ======================================== */
+.theme-sunset-coral {
+    --color-primary: #ff6b35;
+    --color-primary-hover: #ff5722;
+    --color-primary-light: #ff8c61;
+    --color-secondary: #6366f1;
+    --color-text-primary: #1a1f36;
+    --color-text-secondary: #334155;
+    --color-text-tertiary: #64748b;
+    --color-text-muted: #94a3b8;
+    --color-bg-primary: #fafbfc;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #fafbfc;
+    --color-border-light: #f1f3f5;
+    --color-border-medium: #e8ecf1;
+    --color-border-dark: #cbd5e0;
+    --color-success: #10b981;
+    --color-success-bg: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-success-text: #16a34a;
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #dc2626;
+}
+/* ========================================
+   PALETTE 2: OCEAN BLUE
+   Professional, trustworthy, corporate
+   ======================================== */
+.theme-ocean-blue {
+    --color-primary: #0ea5e9;
+    --color-primary-hover: #0284c7;
+    --color-primary-light: #38bdf8;
+    --color-secondary: #8b5cf6;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #1e293b;
+    --color-text-tertiary: #475569;
+    --color-text-muted: #94a3b8;
+    --color-bg-primary: #f8fafc;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #f8fafc;
+    --color-border-light: #e2e8f0;
+    --color-border-medium: #cbd5e1;
+    --color-border-dark: #94a3b8;
+    --color-success: #22c55e;
+    --color-success-bg: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-success-text: #16a34a;
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #dc2626;
+}
+/* ========================================
+   PALETTE 3: EMERALD FOREST
+   Fresh, natural, growth-oriented
+   ======================================== */
+.theme-emerald-forest {
+    --color-primary: #10b981;
+    --color-primary-hover: #059669;
+    --color-primary-light: #34d399;
+    --color-secondary: #14b8a6;
+    --color-text-primary: #064e3b;
+    --color-text-secondary: #065f46;
+    --color-text-tertiary: #047857;
+    --color-text-muted: #6b7280;
+    --color-bg-primary: #f0fdf4;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #f0fdf4;
+    --color-border-light: #d1fae5;
+    --color-border-medium: #a7f3d0;
+    --color-border-dark: #6ee7b7;
+    --color-success: #10b981;
+    --color-success-bg: #ecfdf5;
+    --color-success-border: #d1fae5;
+    --color-success-text: #059669;
+    --color-danger: #f43f5e;
+    --color-danger-hover: #e11d48;
+    --color-danger-bg: #fff1f2;
+    --color-danger-border: #fecdd3;
+    --color-danger-text: #e11d48;
+}
+/* ========================================
+   PALETTE 4: ROYAL PURPLE
+   Luxury, creative, sophisticated
+   ======================================== */
+.theme-royal-purple {
+    --color-primary: #8b5cf6;
+    --color-primary-hover: #7c3aed;
+    --color-primary-light: #a78bfa;
+    --color-secondary: #ec4899;
+    --color-text-primary: #1e1b4b;
+    --color-text-secondary: #312e81;
+    --color-text-tertiary: #4c1d95;
+    --color-text-muted: #6b7280;
+    --color-bg-primary: #faf5ff;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #faf5ff;
+    --color-border-light: #f3e8ff;
+    --color-border-medium: #e9d5ff;
+    --color-border-dark: #d8b4fe;
+    --color-success: #10b981;
+    --color-success-bg: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-success-text: #059669;
+    --color-danger: #f43f5e;
+    --color-danger-hover: #e11d48;
+    --color-danger-bg: #fff1f2;
+    --color-danger-border: #fecdd3;
+    --color-danger-text: #e11d48;
+}
+/* ========================================
+   PALETTE 5: SLATE PROFESSIONAL
+   Minimal, elegant, timeless
+   ======================================== */
+.theme-slate-professional {
+    --color-primary: #475569;
+    --color-primary-hover: #334155;
+    --color-primary-light: #64748b;
+    --color-secondary: #0ea5e9;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #1e293b;
+    --color-text-tertiary: #475569;
+    --color-text-muted: #94a3b8;
+    --color-bg-primary: #f8fafc;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #f8fafc;
+    --color-border-light: #e2e8f0;
+    --color-border-medium: #cbd5e1;
+    --color-border-dark: #94a3b8;
+    --color-success: #22c55e;
+    --color-success-bg: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-success-text: #16a34a;
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #dc2626;
+}
+/* ========================================
+   PALETTE 6: CRIMSON BOLD
+   Powerful, confident, attention-grabbing
+   ======================================== */
+.theme-crimson-bold {
+    --color-primary: #dc2626;
+    --color-primary-hover: #b91c1c;
+    --color-primary-light: #ef4444;
+    --color-secondary: #f59e0b;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #2d2d2d;
+    --color-text-tertiary: #525252;
+    --color-text-muted: #737373;
+    --color-bg-primary: #fafafa;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #fafafa;
+    --color-border-light: #f5f5f5;
+    --color-border-medium: #e5e5e5;
+    --color-border-dark: #d4d4d4;
+    --color-success: #16a34a;
+    --color-success-bg: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-success-text: #15803d;
+    --color-danger: #dc2626;
+    --color-danger-hover: #b91c1c;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #991b1b;
+}
+/* ========================================
+   PALETTE 7: AMBER SUNSET
+   Warm, inviting, optimistic
+   ======================================== */
+.theme-amber-sunset {
+    --color-primary: #f59e0b;
+    --color-primary-hover: #d97706;
+    --color-primary-light: #fbbf24;
+    --color-secondary: #fb923c;
+    --color-text-primary: #1c1917;
+    --color-text-secondary: #292524;
+    --color-text-tertiary: #44403c;
+    --color-text-muted: #78716c;
+    --color-bg-primary: #fffbeb;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #fffbeb;
+    --color-border-light: #fef3c7;
+    --color-border-medium: #fde68a;
+    --color-border-dark: #fcd34d;
+    --color-success: #84cc16;
+    --color-success-bg: #f7fee7;
+    --color-success-border: #d9f99d;
+    --color-success-text: #65a30d;
+    --color-danger: #dc2626;
+    --color-danger-hover: #b91c1c;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #991b1b;
+}
+/* ========================================
+   PALETTE 8: TEAL MODERN
+   Clean, tech-forward, balanced
+   ======================================== */
+.theme-teal-modern {
+    --color-primary: #14b8a6;
+    --color-primary-hover: #0d9488;
+    --color-primary-light: #2dd4bf;
+    --color-secondary: #06b6d4;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #1e293b;
+    --color-text-tertiary: #334155;
+    --color-text-muted: #64748b;
+    --color-bg-primary: #f0fdfa;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #f0fdfa;
+    --color-border-light: #ccfbf1;
+    --color-border-medium: #99f6e4;
+    --color-border-dark: #5eead4;
+    --color-success: #10b981;
+    --color-success-bg: #ecfdf5;
+    --color-success-border: #d1fae5;
+    --color-success-text: #059669;
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #dc2626;
+}
+/* ========================================
+   PALETTE 9: ROSE ELEGANCE
+   Sophisticated, feminine, premium
+   ======================================== */
+.theme-rose-elegance {
+    --color-primary: #e11d48;
+    --color-primary-hover: #be123c;
+    --color-primary-light: #f43f5e;
+    --color-secondary: #ec4899;
+    --color-text-primary: #1f1f1f;
+    --color-text-secondary: #2d2d2d;
+    --color-text-tertiary: #525252;
+    --color-text-muted: #737373;
+    --color-bg-primary: #fff1f2;
+    --color-bg-white: #ffffff;
+    --color-bg-input: #fff1f2;
+    --color-border-light: #ffe4e6;
+    --color-border-medium: #fecdd3;
+    --color-border-dark: #fda4af;
+    --color-success: #10b981;
+    --color-success-bg: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-success-text: #059669;
+    --color-danger: #dc2626;
+    --color-danger-hover: #b91c1c;
+    --color-danger-bg: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-danger-text: #991b1b;
+}
+/* ========================================
+   PALETTE 10: MIDNIGHT DARK
+   Modern dark theme, sleek, high-tech
+   ======================================== */
+.theme-midnight-dark {
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-light: #60a5fa;
+    --color-secondary: #8b5cf6;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #e2e8f0;
+    --color-text-tertiary: #cbd5e1;
+    --color-text-muted: #94a3b8;
+    --color-bg-primary: #0f172a;
+    --color-bg-white: #1e293b;
+    --color-bg-input: #1e293b;
+    --color-border-light: #334155;
+    --color-border-medium: #475569;
+    --color-border-dark: #64748b;
+    --color-success: #22c55e;
+    --color-success-bg: #14532d;
+    --color-success-border: #166534;
+    --color-success-text: #4ade80;
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-danger-bg: #450a0a;
+    --color-danger-border: #7f1d1d;
+    --color-danger-text: #fca5a5;
+}
