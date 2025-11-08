@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Structure Plan - Grade 6 Learning App</title>
+    <title>Learning App - Project TODO & Progress Tracker</title>
     <style>
         * {
             margin: 0;
@@ -11,643 +11,596 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Courier New', monospace;
-            background: #1e293b;
-            color: #e2e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
             padding: 2rem;
-            line-height: 1.6;
+            color: #1e293b;
         }
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        h1 {
-            color: #3B82F6;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-        }
-        h2 {
-            color: #10B981;
-            margin: 2rem 0 1rem 0;
-            font-size: 1.8rem;
-            border-left: 4px solid #10B981;
-            padding-left: 1rem;
-        }
-        h3 {
-            color: #8B5CF6;
-            margin: 1.5rem 0 0.5rem 0;
-            font-size: 1.3rem;
-        }
-        .file-section {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .file-name {
-            background: #3B82F6;
-            color: white;
-            padding: 0.5rem 1rem;
+        .header {
+            background: white;
             border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3B82F6;
+        }
+        .header h1 {
+            color: #3B82F6;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 30px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #3B82F6;
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-weight: bold;
         }
-        .purpose {
-            background: #334155;
-            padding: 1rem;
-            border-left: 4px solid #10B981;
-            margin-bottom: 1rem;
-        }
-        .features {
-            list-style: none;
-            margin-left: 1rem;
-        }
-        .features li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        .features li:before {
-            content: "▶";
-            position: absolute;
-            left: 0;
-            color: #3B82F6;
-        }
-        pre {
-            background: #0f172a;
-            border: 1px solid #475569;
-            padding: 1rem;
+        .section {
+            background: white;
             border-radius: 4px;
-            overflow-x: auto;
-            color: #10B981;
-            margin: 1rem 0;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-left: 4px solid #3B82F6;
+            padding-left: 1rem;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        .status-done {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-pending {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .task-list {
+            list-style: none;
+        }
+        .task-item {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            border-left: 3px solid;
+            background: #fafafa;
+            transition: background 0.2s;
+        }
+        .task-item:hover {
+            background: #f5f5f5;
+        }
+        .task-done {
+            border-color: #10B981;
+            opacity: 0.7;
+        }
+        .task-progress {
+            border-color: #fbbf24;
+        }
+        .task-pending {
+            border-color: #ef4444;
+        }
+        .task-item input[type="checkbox"] {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .task-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .task-text {
+            flex: 1;
+        }
+        .task-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+        .task-details {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+        .file-path {
+            background: #e0e7ff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #3730a3;
         }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin: 2rem 0;
+            margin-top: 2rem;
         }
         .card {
-            background: #334155;
+            background: #fafafa;
             padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #8B5CF6;
-        }
-        .card-title {
-            color: #8B5CF6;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        .route {
-            background: #1e293b;
-            padding: 0.25rem 0.5rem;
-            border-radius: 3px;
-            color: #fbbf24;
-            font-weight: bold;
-        }
-        .component {
-            background: #0f172a;
-            border: 1px solid #8B5CF6;
-            padding: 1rem;
-            margin: 1rem 0;
             border-radius: 4px;
+            border-top: 3px solid;
         }
-        .highlight {
-            color: #fbbf24;
+        .card-complete {
+            border-color: #10B981;
+        }
+        .card-progress {
+            border-color: #fbbf24;
+        }
+        .card-pending {
+            border-color: #ef4444;
+        }
+        .card h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        .card-stat {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+        .improvement-list {
+            list-style: none;
+            margin-top: 0.75rem;
+        }
+        .improvement-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .improvement-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #3B82F6;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📋 HTML FILES STRUCTURE PLAN</h1>
-
-        <!-- ========================================= -->
-        <!-- FILE TREE -->
-        <!-- ========================================= -->
-        <h2>🌳 COMPLETE FILE TREE</h2>
-        <div class="file-section">
-            <pre style="color: #10B981; font-size: 0.9rem;">
-online-learning-app/
-│
-├── 📄 pom.xml
-│
-└── 📁 src/
-    └── 📁 main/
-        │
-        ├── 📁 java/com/learning/
-        │   │
-        │   ├── 📄 App.java                      ← Main Spring Boot application
-        │   ├── 📄 Models.java                   ← ALL 6 entities in ONE file
-        │   ├── 📄 Repos.java                    ← ALL 6 repositories in ONE file
-        │   │
-        │   └── 📁 controller/
-        │       ├── 📄 AuthController.java       ← Login, Register, Logout
-        │       ├── 📄 StudentController.java    ← Student routes (dashboard, lessons, quiz)
-        │       └── 📄 TeacherController.java    ← Teacher routes (manage content)
-        │
-        └── 📁 resources/
-            │
-            ├── 📄 application.properties        ← Database config
-            │
-            ├── 📁 static/                       ← CSS, JS, Images
-            │   │
-            │   ├── 📁 css/
-            │   │   └── 📄 style.css             ← SINGLE stylesheet for entire app
-            │   │
-            │   ├── 📁 js/
-            │   │   ├── 📄 config.js             ← Subject config (colors, icons, names)
-            │   │   └── 📄 components.js         ← Dynamic component styling
-            │   │
-            │   └── 📁 images/
-            │       └── (icons, logos, etc.)
-            │
-            └── 📁 templates/                    ← Thymeleaf HTML files
-                │
-                ├── 📁 fragments/                ← REUSABLE components
-                │   ├── 📄 layout.html           ← Base layout (head, nav, footer)
-                │   └── 📄 components.html       ← Reusable UI pieces (cards, progress bars)
-                │
-                ├── 📄 login.html                ← Login page
-                ├── 📄 register.html             ← Registration page
-                │
-                ├── 📄 student-dashboard.html    ← Student home (stats + subjects)
-                ├── 📄 lessons.html              ← View lessons for a subject
-                ├── 📄 quiz-take.html            ← Take quiz (questions + submit)
-                ├── 📄 results.html              ← View quiz results
-                │
-                ├── 📄 teacher-dashboard.html    ← Teacher home
-                ├── 📄 teacher-lessons.html      ← Manage lessons (CRUD)
-                └── 📄 teacher-quizzes.html      ← Manage quizzes (CRUD)
-            </pre>
-        </div>
-
-        <div class="file-section" style="background: #134e4a; border-color: #10B981;">
-            <h3 style="color: #10B981;">📊 FILE COUNT SUMMARY</h3>
-            <div class="grid">
-                <div class="card" style="background: #0f172a; border-color: #3B82F6;">
-                    <div class="card-title">Java Files</div>
-                    <div style="font-size: 2rem; color: #3B82F6;">6</div>
-                    <small>App + Models + Repos + 3 Controllers</small>
-                </div>
-                <div class="card" style="background: #0f172a; border-color: #10B981;">
-                    <div class="card-title">HTML Files</div>
-                    <div style="font-size: 2rem; color: #10B981;">11</div>
-                    <small>9 pages + 2 fragments</small>
-                </div>
-                <div class="card" style="background: #0f172a; border-color: #8B5CF6;">
-                    <div class="card-title">Static Files</div>
-                    <div style="font-size: 2rem; color: #8B5CF6;">3</div>
-                    <small>1 CSS + 2 JS</small>
-                </div>
-                <div class="card" style="background: #0f172a; border-color: #fbbf24;">
-                    <div class="card-title">Config Files</div>
-                    <div style="font-size: 2rem; color: #fbbf24;">2</div>
-                    <small>pom.xml + application.properties</small>
-                </div>
+        <div class="header">
+            <h1>🎓 Grade 6 Learning App</h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.5rem;">Spring Boot + Thymeleaf + MySQL Project</p>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 45%;">45% Complete</div>
             </div>
         </div>
-
-        <!-- ========================================= -->
-        <!-- FRAGMENTS -->
-        <!-- ========================================= -->
-        <h2>1. FRAGMENTS (Reusable Components)</h2>
-
-        <div class="file-section">
-            <div class="file-name">📁 fragments/layout.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Base wrapper for all pages - includes head, nav, footer
-            </div>
-            <h3>Contains:</h3>
-            <ul class="features">
-                <li>&lt;head&gt; fragment - CSS, JS imports</li>
-                <li>&lt;nav&gt; fragment - Navigation bar (changes by role)</li>
-                <li>&lt;footer&gt; fragment - Footer</li>
-            </ul>
-            <pre>&lt;!-- Usage in other pages --&gt;
-&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
-&lt;head th:replace="fragments/layout :: head(title='Dashboard')"&gt;&lt;/head&gt;
-&lt;body&gt;
-    &lt;nav th:replace="fragments/layout :: nav(${userRole})"&gt;&lt;/nav&gt;
-    
-    &lt;!-- Page content here --&gt;
-    
-    &lt;footer th:replace="fragments/layout :: footer"&gt;&lt;/footer&gt;
-&lt;/body&gt;</pre>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 fragments/components.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Reusable UI components (cards, buttons, progress bars)
-            </div>
-            <h3>Contains:</h3>
-            <ul class="features">
-                <li>subject-card fragment</li>
-                <li>lesson-card fragment</li>
-                <li>quiz-card fragment</li>
-                <li>progress-bar fragment</li>
-                <li>stat-card fragment</li>
-            </ul>
-            <pre>&lt;!-- Subject Card Fragment --&gt;
-&lt;div th:fragment="subject-card(subject)" 
-     class="subject-card" 
-     th:attr="data-subject=${subject}"&gt;
-    &lt;div class="subject-icon"&gt;&lt;/div&gt;
-    &lt;h3 th:text="${subject}"&gt;&lt;/h3&gt;
-    &lt;button class="btn"&gt;Select&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;!-- Usage --&gt;
-&lt;div th:replace="fragments/components :: subject-card('math')"&gt;&lt;/div&gt;</pre>
-        </div>
-
-        <!-- ========================================= -->
-        <!-- AUTH PAGES -->
-        <!-- ========================================= -->
-        <h2>2. AUTHENTICATION PAGES</h2>
-
-        <div class="file-section">
-            <div class="file-name">📁 login.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Login form for all users
-            </div>
-            <h3>Form Action:</h3>
-            <pre>&lt;form action="/login" method="POST"&gt;
-    &lt;input name="email" type="email" required&gt;
-    &lt;input name="password" type="password" required&gt;
-    &lt;button type="submit"&gt;Login&lt;/button&gt;
-&lt;/form&gt;
-&lt;a href="/register"&gt;Register&lt;/a&gt;</pre>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">POST /login</span> → AuthController.doLogin()</li>
-                <li>Success → redirect based on role (student/teacher)</li>
-                <li>Fail → return login.html with error message</li>
-            </ul>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 register.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Registration form for new users
-            </div>
-            <h3>Form Action:</h3>
-            <pre>&lt;form action="/register" method="POST"&gt;
-    &lt;input name="name" required&gt;
-    &lt;input name="email" type="email" required&gt;
-    &lt;input name="password" type="password" required&gt;
-    &lt;select name="role" required&gt;
-        &lt;option value="STUDENT"&gt;Student&lt;/option&gt;
-        &lt;option value="TEACHER"&gt;Teacher&lt;/option&gt;
-    &lt;/select&gt;
-    &lt;input name="section" placeholder="e.g., 6-A"&gt;
-    &lt;button type="submit"&gt;Register&lt;/button&gt;
-&lt;/form&gt;</pre>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">POST /register</span> → AuthController.register()</li>
-                <li>Save user → redirect /login</li>
-            </ul>
-        </div>
-
-        <!-- ========================================= -->
-        <!-- STUDENT PAGES -->
-        <!-- ========================================= -->
-        <h2>3. STUDENT PAGES</h2>
-
-        <div class="file-section">
-            <div class="file-name">📁 student-dashboard.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Student home - stats + subject selector
-            </div>
-            <h3>Data from Controller:</h3>
-            <pre>Model attributes:
-- user (User object)
-- stats (Map: completed lessons, quizzes taken, avg score)
-- recentProgress (List of recent activities)</pre>
-            <h3>Components Used:</h3>
-            <ul class="features">
-                <li>Stats cards (lessons completed, quizzes taken, avg score)</li>
-                <li>Subject selector grid (Math, English, Science)</li>
-                <li>Recent activity list</li>
-            </ul>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">GET /student/dashboard</span></li>
-                <li>Get userId from session</li>
-                <li>Load stats, progress data</li>
-                <li>Return student-dashboard.html</li>
-            </ul>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 lessons.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> List lessons + quizzes for selected subject
-            </div>
-            <h3>Data from Controller:</h3>
-            <pre>Model attributes:
-- subject (String: "math", "english", "science")
-- lessons (List&lt;Lesson&gt;)
-- quizzes (List&lt;Quiz&gt;)
-- progress (Map&lt;lessonId, completion%&gt;)</pre>
-            <h3>Structure:</h3>
-            <ul class="features">
-                <li>Subject header with icon/color (via JS config)</li>
-                <li>Lessons section (cards with progress bars)</li>
-                <li>Quizzes section (cards with duration/question count)</li>
-            </ul>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">GET /student/lessons?subject=math</span></li>
-                <li>Load lessons by subject</li>
-                <li>Load student progress</li>
-                <li>Return lessons.html</li>
-            </ul>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 quiz-take.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Take quiz - questions with multiple choice
-            </div>
-            <h3>Data from Controller:</h3>
-            <pre>Model attributes:
-- quiz (Quiz object)
-- questions (List&lt;Question&gt;)
-- studentId (Long)</pre>
-            <h3>Form Structure:</h3>
-            <pre>&lt;form action="/student/quiz/submit" method="POST"&gt;
-    &lt;input type="hidden" name="quizId" th:value="${quiz.id}"&gt;
-    &lt;input type="hidden" name="studentId" th:value="${studentId}"&gt;
-    
-    &lt;div th:each="q, stat : ${questions}" class="question"&gt;
-        &lt;h4 th:text="${stat.count + '. ' + q.text}"&gt;&lt;/h4&gt;
-        &lt;label&gt;&lt;input type="radio" th:name="'answer_' + ${q.id}" value="A"&gt; 
-               &lt;span th:text="${q.optionA}"&gt;&lt;/span&gt;&lt;/label&gt;
-        &lt;label&gt;&lt;input type="radio" th:name="'answer_' + ${q.id}" value="B"&gt; 
-               &lt;span th:text="${q.optionB}"&gt;&lt;/span&gt;&lt;/label&gt;
-        &lt;label&gt;&lt;input type="radio" th:name="'answer_' + ${q.id}" value="C"&gt; 
-               &lt;span th:text="${q.optionC}"&gt;&lt;/span&gt;&lt;/label&gt;
-        &lt;label&gt;&lt;input type="radio" th:name="'answer_' + ${q.id}" value="D"&gt; 
-               &lt;span th:text="${q.optionD}"&gt;&lt;/span&gt;&lt;/label&gt;
-    &lt;/div&gt;
-    
-    &lt;button type="submit"&gt;Submit Quiz&lt;/button&gt;
-&lt;/form&gt;</pre>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">GET /student/quiz?id=1</span> → Load quiz</li>
-                <li><span class="route">POST /student/quiz/submit</span> → Calculate score, save attempt</li>
-            </ul>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 results.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Show all quiz attempts and scores
-            </div>
-            <h3>Data from Controller:</h3>
-            <pre>Model attributes:
-- attempts (List&lt;QuizAttempt&gt; with quiz names)
-- averageScore (Double)</pre>
-            <h3>Display:</h3>
-            <ul class="features">
-                <li>List of all quiz attempts</li>
-                <li>Score, date, quiz name</li>
-                <li>Subject icon/color (via JS)</li>
-                <li>Average score stat</li>
-            </ul>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">GET /student/results</span></li>
-                <li>Load all attempts for student</li>
-                <li>Calculate average</li>
-                <li>Return results.html</li>
-            </ul>
-        </div>
-
-        <!-- ========================================= -->
-        <!-- TEACHER PAGES -->
-        <!-- ========================================= -->
-        <h2>4. TEACHER PAGES</h2>
-
-        <div class="file-section">
-            <div class="file-name">📁 teacher-dashboard.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Teacher home - manage content + view student progress
-            </div>
-            <h3>Sections:</h3>
-            <ul class="features">
-                <li>Quick stats (total lessons, quizzes, students)</li>
-                <li>Manage Lessons button → /teacher/lessons</li>
-                <li>Manage Quizzes button → /teacher/quizzes</li>
-                <li>View Students button → /teacher/students</li>
-            </ul>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">GET /teacher/dashboard</span></li>
-                <li>Load counts</li>
-                <li>Return teacher-dashboard.html</li>
-            </ul>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 teacher-lessons.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> CRUD for lessons
-            </div>
-            <h3>Features:</h3>
-            <ul class="features">
-                <li>List all lessons (with edit/delete buttons)</li>
-                <li>Add New Lesson form (subject, title, content, video URL)</li>
-            </ul>
-            <h3>Form:</h3>
-            <pre>&lt;form action="/teacher/lesson/add" method="POST"&gt;
-    &lt;select name="subject" required&gt;
-        &lt;option value="math"&gt;Math&lt;/option&gt;
-        &lt;option value="english"&gt;English&lt;/option&gt;
-        &lt;option value="science"&gt;Science&lt;/option&gt;
-    &lt;/select&gt;
-    &lt;input name="title" required&gt;
-    &lt;textarea name="content" rows="10" required&gt;&lt;/textarea&gt;
-    &lt;input name="videoUrl" placeholder="Optional"&gt;
-    &lt;button type="submit"&gt;Add Lesson&lt;/button&gt;
-&lt;/form&gt;</pre>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">GET /teacher/lessons</span> → List all</li>
-                <li><span class="route">POST /teacher/lesson/add</span> → Save lesson</li>
-                <li><span class="route">POST /teacher/lesson/edit</span> → Update lesson</li>
-                <li><span class="route">POST /teacher/lesson/delete?id=X</span> → Delete</li>
-            </ul>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 teacher-quizzes.html</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> CRUD for quizzes + questions
-            </div>
-            <h3>Features:</h3>
-            <ul class="features">
-                <li>List all quizzes</li>
-                <li>Add quiz form (subject, title, duration)</li>
-                <li>Add questions form (text, options A-D, correct answer)</li>
-            </ul>
-            <h3>Form Structure:</h3>
-            <pre>&lt;form action="/teacher/quiz/add" method="POST"&gt;
-    &lt;select name="subject" required&gt;&lt;/select&gt;
-    &lt;input name="title" required&gt;
-    &lt;input name="duration" type="number" required&gt;
-    
-    &lt;!-- Dynamic question inputs (JS adds more) --&gt;
-    &lt;div id="questions"&gt;
-        &lt;div class="question-input"&gt;
-            &lt;input name="questions[0].text" placeholder="Question"&gt;
-            &lt;input name="questions[0].optionA" placeholder="Option A"&gt;
-            &lt;input name="questions[0].optionB" placeholder="Option B"&gt;
-            &lt;input name="questions[0].optionC" placeholder="Option C"&gt;
-            &lt;input name="questions[0].optionD" placeholder="Option D"&gt;
-            &lt;select name="questions[0].correctAnswer"&gt;
-                &lt;option value="A"&gt;A&lt;/option&gt;
-                &lt;option value="B"&gt;B&lt;/option&gt;
-                &lt;option value="C"&gt;C&lt;/option&gt;
-                &lt;option value="D"&gt;D&lt;/option&gt;
-            &lt;/select&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;button type="button" onclick="addQuestion()"&gt;+ Add Question&lt;/button&gt;
-    &lt;button type="submit"&gt;Save Quiz&lt;/button&gt;
-&lt;/form&gt;</pre>
-            <h3>Controller:</h3>
-            <ul class="features">
-                <li><span class="route">POST /teacher/quiz/add</span> → Save quiz + questions</li>
-            </ul>
-        </div>
-
-        <!-- ========================================= -->
-        <!-- JAVASCRIPT CONFIG -->
-        <!-- ========================================= -->
-        <h2>5. JAVASCRIPT FILES</h2>
-
-        <div class="file-section">
-            <div class="file-name">📁 static/js/config.js</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Single source of truth for subject styling
-            </div>
-            <pre>const SUBJECTS = {
-    math: {
-        name: "Mathematics",
-        icon: "📐",
-        color: "#3B82F6",
-        bg: "#EFF6FF"
-    },
-    english: {
-        name: "English",
-        icon: "📚",
-        color: "#10B981",
-        bg: "#ECFDF5"
-    },
-    science: {
-        name: "Science",
-        icon: "🔬",
-        color: "#8B5CF6",
-        bg: "#F5F3FF"
-    }
-};</pre>
-        </div>
-
-        <div class="file-section">
-            <div class="file-name">📁 static/js/components.js</div>
-            <div class="purpose">
-                <strong>PURPOSE:</strong> Apply subject styling dynamically
-            </div>
-            <pre>// On page load, apply subject colors/icons
-document.addEventListener('DOMContentLoaded', () => {
-    // Find all elements with data-subject attribute
-    document.querySelectorAll('[data-subject]').forEach(el => {
-        const subject = el.dataset.subject;
-        const config = SUBJECTS[subject];
-        
-        // Apply icon
-        const icon = el.querySelector('.subject-icon');
-        if (icon) icon.textContent = config.icon;
-        
-        // Apply colors
-        el.style.borderColor = config.color;
-        el.style.background = config.bg;
-        
-        // Apply to buttons
-        const btn = el.querySelector('.btn');
-        if (btn) btn.style.background = config.color;
-    });
-});</pre>
-        </div>
-
-        <!-- ========================================= -->
-        <!-- SUMMARY -->
-        <!-- ========================================= -->
-        <h2>6. COMPLETE PAGE-TO-CONTROLLER MAP</h2>
 
         <div class="grid">
-            <div class="card">
-                <div class="card-title">login.html</div>
-                <span class="route">GET /login</span><br>
-                <span class="route">POST /login</span>
+            <div class="card card-complete">
+                <h3>✅ Completed</h3>
+                <div class="card-stat" style="color: #10B981;">6</div>
+                <p style="color: #64748b;">Tasks finished</p>
             </div>
-            <div class="card">
-                <div class="card-title">register.html</div>
-                <span class="route">GET /register</span><br>
-                <span class="route">POST /register</span>
+            <div class="card card-progress">
+                <h3>🔄 In Progress</h3>
+                <div class="card-stat" style="color: #fbbf24;">4</div>
+                <p style="color: #64748b;">Tasks ongoing</p>
             </div>
-            <div class="card">
-                <div class="card-title">student-dashboard.html</div>
-                <span class="route">GET /student/dashboard</span>
-            </div>
-            <div class="card">
-                <div class="card-title">lessons.html</div>
-                <span class="route">GET /student/lessons?subject=X</span>
-            </div>
-            <div class="card">
-                <div class="card-title">quiz-take.html</div>
-                <span class="route">GET /student/quiz?id=X</span><br>
-                <span class="route">POST /student/quiz/submit</span>
-            </div>
-            <div class="card">
-                <div class="card-title">results.html</div>
-                <span class="route">GET /student/results</span>
-            </div>
-            <div class="card">
-                <div class="card-title">teacher-dashboard.html</div>
-                <span class="route">GET /teacher/dashboard</span>
-            </div>
-            <div class="card">
-                <div class="card-title">teacher-lessons.html</div>
-                <span class="route">GET /teacher/lessons</span><br>
-                <span class="route">POST /teacher/lesson/add</span>
-            </div>
-            <div class="card">
-                <div class="card-title">teacher-quizzes.html</div>
-                <span class="route">GET /teacher/quizzes</span><br>
-                <span class="route">POST /teacher/quiz/add</span>
+            <div class="card card-pending">
+                <h3>⏳ Pending</h3>
+                <div class="card-stat" style="color: #ef4444;">3</div>
+                <p style="color: #64748b;">Tasks remaining</p>
             </div>
         </div>
 
-        <div class="component">
-            <h3 class="highlight">🔥 KEY PRINCIPLE:</h3>
-            <ul class="features">
-                <li><strong>Fragments</strong> = Reusable HTML (layout, nav, components)</li>
-                <li><strong>Thymeleaf</strong> = Server renders data into HTML</li>
-                <li><strong>JS Config</strong> = Applies subject colors/icons client-side</li>
-                <li><strong>No API</strong> = Forms submit directly to controllers</li>
-                <li><strong>Minimal Files</strong> = 9 pages + 2 fragments + 2 JS files</li>
+        <!-- PHASE 1: PROJECT SETUP -->
+        <div class="section">
+            <h2>Phase 1: Project Setup <span class="status-badge status-done">DONE</span></h2>
+            <ul class="task-list">
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Extract Spring Initializr Project</div>
+                            <div class="task-details">Base Spring Boot project structure created</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Update pom.xml</div>
+                            <div class="task-details">
+                                <span class="file-path">pom.xml</span> - Dependencies configured (Spring Web, JPA, Thymeleaf, MySQL)
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Generate File Structure</div>
+                            <div class="task-details">All directories created via PowerShell script</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Create Database Schema</div>
+                            <div class="task-details">MySQL database with 6 tables and sample data loaded</div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
 
+        <!-- PHASE 2: BACKEND (JAVA) -->
+        <div class="section">
+            <h2>Phase 2: Backend (Java) <span class="status-badge status-progress">IN PROGRESS</span></h2>
+            <ul class="task-list">
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Create Entity Models</div>
+                            <div class="task-details">
+                                <span class="file-path">src/main/java/com/learning/model/</span><br>
+                                6 entities: User, Lesson, Quiz, Question, QuizAttempt, Progress
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Create Repositories</div>
+                            <div class="task-details">
+                                <span class="file-path">src/main/java/com/learning/repository/</span><br>
+                                6 JPA repositories with custom query methods
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-progress">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">🔄 Improve Controllers</div>
+                            <div class="task-details">
+                                <span class="file-path">src/main/java/com/learning/controller/</span>
+                                <ul class="improvement-list">
+                                    <li>Add session validation/security checks</li>
+                                    <li>Implement error handling (@ExceptionHandler)</li>
+                                    <li>Add validation for form inputs</li>
+                                    <li>Fix quiz submission to handle dynamic answers properly</li>
+                                    <li>Add teacher CRUD operations (edit/delete lessons & quizzes)</li>
+                                    <li>Implement student progress tracking</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ No Service Layer Needed</div>
+                            <div class="task-details">
+                                Controllers query database directly via repositories (traditional MVC pattern)
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ No REST API</div>
+                            <div class="task-details">
+                                Server-side rendering only - no JSON endpoints needed
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PHASE 3: FRONTEND (HTML/CSS/JS) -->
+        <div class="section">
+            <h2>Phase 3: Frontend (HTML/CSS/JS) <span class="status-badge status-progress">IN PROGRESS</span></h2>
+            <ul class="task-list">
+                <li class="task-item task-done">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title">✅ Create HTML Templates</div>
+                            <div class="task-details">
+                                <span class="file-path">src/main/resources/templates/</span><br>
+                                11 HTML files created with Thymeleaf integration
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-progress">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">🔄 Improve HTML Templates</div>
+                            <div class="task-details">
+                                <ul class="improvement-list">
+                                    <li><strong>login.html</strong> - Add "Remember Me" checkbox, forgot password link</li>
+                                    <li><strong>register.html</strong> - Add password confirmation, client-side validation</li>
+                                    <li><strong>student-dashboard.html</strong> - Add recent activity feed, grade statistics</li>
+                                    <li><strong>lessons.html</strong> - Add search/filter by subject, lesson completion tracking</li>
+                                    <li><strong>quiz-take.html</strong> - Add timer countdown, question navigation</li>
+                                    <li><strong>results.html</strong> - Add detailed feedback per question, charts/graphs</li>
+                                    <li><strong>teacher-lessons.html</strong> - Add edit/delete buttons with modals</li>
+                                    <li><strong>teacher-quizzes.html</strong> - Add dynamic question form (add/remove questions)</li>
+                                    <li><strong>fragments/layout.html</strong> - Add user profile dropdown, notifications</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-progress">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">🔄 Enhance CSS Styling</div>
+                            <div class="task-details">
+                                <span class="file-path">src/main/resources/static/css/style.css</span>
+                                <ul class="improvement-list">
+                                    <li>Clean, professional LMS-style design</li>
+                                    <li>Warm neutral colors (whites, soft grays, subtle accent colors)</li>
+                                    <li>Clear typography hierarchy with readable fonts</li>
+                                    <li>Minimal shadows and borders - flat/clean aesthetic</li>
+                                    <li>NO bright gradients or cartoonish elements</li>
+                                    <li>Professional spacing and whitespace</li>
+                                    <li>Accessible color contrasts (WCAG compliant)</li>
+                                    <li>Focus on readability and usability over decoration</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-progress">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">🔄 Enhance JavaScript</div>
+                            <div class="task-details">
+                                <span class="file-path">src/main/resources/static/js/</span>
+                                <ul class="improvement-list">
+                                    <li><strong>components.js</strong> - Subject icon/color application only</li>
+                                    <li><strong>config.js</strong> - Subject configuration (colors, icons)</li>
+                                    <li><strong>NO AJAX</strong> - No fetch() calls to backend</li>
+                                    <li><strong>NO API calls</strong> - All data comes from Thymeleaf</li>
+                                    <li>Minimal client-side interactions (dropdowns, modals)</li>
+                                    <li>Form validation handled by HTML5 attributes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PHASE 4: TESTING & DEPLOYMENT -->
+        <div class="section">
+            <h2>Phase 4: Testing & Deployment <span class="status-badge status-pending">PENDING</span></h2>
+            <ul class="task-list">
+                <li class="task-item task-pending">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">⏳ Test All User Flows</div>
+                            <div class="task-details">
+                                <ul class="improvement-list">
+                                    <li>Test student registration → login → take quiz → view results</li>
+                                    <li>Test teacher login → create lesson → create quiz → view students</li>
+                                    <li>Test edge cases (empty data, invalid inputs, concurrent users)</li>
+                                    <li>Test on different browsers (Chrome, Firefox, Edge)</li>
+                                    <li>Test responsive design on mobile devices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-pending">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">⏳ Fix Bugs & Issues</div>
+                            <div class="task-details">
+                                <ul class="improvement-list">
+                                    <li>Fix quiz submission form handling</li>
+                                    <li>Ensure session persistence across pages</li>
+                                    <li>Fix Thymeleaf template rendering issues</li>
+                                    <li>Validate database constraints work properly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-pending">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title">⏳ Prepare for Deployment</div>
+                            <div class="task-details">
+                                <ul class="improvement-list">
+                                    <li>Package as WAR file for Tomcat deployment</li>
+                                    <li>Create production application.properties</li>
+                                    <li>Write README.md with setup instructions</li>
+                                    <li>Document database setup steps</li>
+                                    <li>Create user manual/guide</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section" style="border-top: 4px solid #3B82F6;">
+            <h2 style="color: #3B82F6;">📐 Architecture: Server-Side Rendering Only</h2>
+            <div class="card" style="border-color: #3B82F6; background: #eff6ff;">
+                <h3>Direct Frontend-to-Database Flow</h3>
+                <p style="margin: 1rem 0; line-height: 1.8;">
+                    <strong>No REST API or JavaScript backend calls.</strong> This is a traditional MVC web application where:
+                </p>
+                <ul style="padding-left: 2rem; line-height: 2;">
+                    <li>🔄 <strong>HTML forms POST directly to Spring controllers</strong></li>
+                    <li>🗄️ <strong>Controllers query database via JPA repositories</strong></li>
+                    <li>📄 <strong>Thymeleaf renders data into HTML server-side</strong></li>
+                    <li>🎨 <strong>CSS/JS only for UI styling and interactions</strong></li>
+                    <li>✅ <strong>No AJAX, no fetch(), no API endpoints</strong></li>
+                </ul>
+                <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 6px; border-left: 4px solid #3B82F6;">
+                    <strong>Example Flow:</strong><br>
+                    Student clicks "Take Quiz" → Loads quiz-take.html with questions → Submits form → 
+                    Controller calculates score → Redirects to results.html with data
+                </div>
+            </div>
+        </div>
+
+        <!-- CRITICAL FIXES NEEDED -->
+        <div class="section" style="border-top: 4px solid #ef4444;">
+            <h2 style="color: #dc2626;">🚨 Critical Issues to Fix Before Running</h2>
+            <ul class="task-list">
+                <li class="task-item task-pending" style="border-color: #dc2626; background: #fee;">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title" style="color: #dc2626;">🔴 Fix Quiz Submission Handler</div>
+                            <div class="task-details">
+                                <span class="file-path">StudentController.java</span><br>
+                                The current <code>@RequestParam List&lt;String&gt; answers</code> won't work with radio buttons.<br>
+                                <strong>Solution:</strong> Change to use <code>@RequestParam Map&lt;String, String&gt; allParams</code> and filter "answer_*" keys
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-done" style="border-color: #10B981; background: #d1fae5;">
+                    <div class="task-content">
+                        <input type="checkbox" checked disabled>
+                        <div class="task-text">
+                            <div class="task-title" style="color: #10B981;">✅ MySQL Connection (No Password)</div>
+                            <div class="task-details">
+                                <span class="file-path">application.properties</span><br>
+                                Default MySQL setup with empty password - no configuration needed
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="task-item task-pending" style="border-color: #dc2626; background: #fee;">
+                    <div class="task-content">
+                        <input type="checkbox">
+                        <div class="task-text">
+                            <div class="task-title" style="color: #dc2626;">🔴 Add Session Validation</div>
+                            <div class="task-details">
+                                All controller methods need to check if user is logged in:<br>
+                                <code>if (session.getAttribute("userId") == null) return "redirect:/login";</code>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- FILE STRUCTURE REFERENCE -->
+        <div class="section">
+            <h2>📁 Complete File Structure</h2>
+            <div style="background: #0f172a; color: #10B981; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem; overflow-x: auto;">
+<pre>online-learning-app/
+├── pom.xml ✅
+├── src/main/
+│   ├── java/com/learning/
+│   │   ├── App.java ✅
+│   │   ├── model/
+│   │   │   ├── User.java ✅
+│   │   │   ├── Lesson.java ✅
+│   │   │   ├── Quiz.java ✅
+│   │   │   ├── Question.java ✅
+│   │   │   ├── QuizAttempt.java ✅
+│   │   │   └── Progress.java ✅
+│   │   ├── repository/
+│   │   │   ├── UserRepo.java ✅
+│   │   │   ├── LessonRepo.java ✅
+│   │   │   ├── QuizRepo.java ✅
+│   │   │   ├── QuestionRepo.java ✅
+│   │   │   ├── QuizAttemptRepo.java ✅
+│   │   │   └── ProgressRepo.java ✅
+│   │   └── controller/
+│   │       ├── AuthController.java ✅ (needs fixes)
+│   │       ├── StudentController.java ✅ (needs fixes)
+│   │       └── TeacherController.java ✅ (needs improvements)
+│   └── resources/
+│       ├── application.properties ✅ (needs configuration)
+│       ├── static/
+│       │   ├── css/style.css ✅ (needs enhancements)
+│       │   └── js/
+│       │       ├── config.js ✅
+│       │       └── components.js ✅ (needs improvements)
+│       └── templates/
+│           ├── fragments/
+│           │   ├── layout.html ✅
+│           │   └── components.html ✅
+│           ├── login.html ✅
+│           ├── register.html ✅
+│           ├── student-dashboard.html ✅
+│           ├── lessons.html ✅
+│           ├── quiz-take.html ✅
+│           ├── results.html ✅
+│           ├── teacher-dashboard.html ✅
+│           ├── teacher-lessons.html ✅
+│           └── teacher-quizzes.html ✅</pre>
+            </div>
+        </div>
+
+        <!-- NEXT STEPS -->
+        <div class="section" style="border-top: 4px solid #10B981;">
+            <h2 style="color: #10B981;">🚀 Next Steps to Run the App</h2>
+            <ol style="padding-left: 2rem; line-height: 2;">
+                <li><strong>Fix Critical Issues</strong> - Address the 3 critical issues listed above</li>
+                <li><strong>Configure Database</strong> - Update application.properties with your MySQL credentials</li>
+                <li><strong>Run SQL Script</strong> - Execute the database creation script in MySQL Workbench</li>
+                <li><strong>Clean & Build</strong> - Run Maven clean install in NetBeans</li>
+                <li><strong>Run Application</strong> - Start the Spring Boot app (Right-click App.java → Run)</li>
+                <li><strong>Test Login</strong> - Visit http://localhost:8080 and login with demo accounts</li>
+                <li><strong>Test Features</strong> - Go through student and teacher workflows</li>
+                <li><strong>Fix Bugs</strong> - Address any runtime errors that appear</li>
+            </ol>
+        </div>
     </div>
 </body>
 </html>
