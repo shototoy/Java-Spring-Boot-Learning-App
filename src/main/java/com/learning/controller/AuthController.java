@@ -1,6 +1,7 @@
 package com.learning.controller;
 
-import com.learning.*;
+import com.learning.model.User;
+import com.learning.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

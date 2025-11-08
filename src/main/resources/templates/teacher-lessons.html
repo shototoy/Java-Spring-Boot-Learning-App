@@ -1,14 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teacher-lessons</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Manage Lessons')}"></head>
 <body>
-    <h1>teacher-lessons</h1>
+    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
+    <div class="container">
+        <div style="margin-bottom: 2rem;">
+            <a th:href="@{/teacher/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+        </div>
+        <h1 style="margin-bottom: 2rem;">Manage Lessons </h1>
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Add New Lesson</h3>
+            <form th:action="@{/teacher/lesson/add}" method="post">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select name="subject" required>
+                        <option value="math">Mathematics</option>
+                        <option value="english">English</option>
+                        <option value="science">Science</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" required placeholder="Lesson title">
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea name="content" rows="5" required placeholder="Lesson content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Video URL (Optional)</label>
+                    <input type="url" name="videoUrl" placeholder="https://youtube.com/watch?v=...">
+                </div>
+                <div class="form-group">
+                    <label>Order Number</label>
+                    <input type="number" name="orderNum" required value="1" min="1">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Lesson</button>
+            </form>
+        </div>
+        <h2 style="margin: 2rem 0 1rem;">All Lessons</h2>
+        <div th:if="" class="card">
+            <p style="text-align: center; color: #64748b;">No lessons yet.</p>
+        </div>
+        <div th:each="lesson : " class="card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h3 th:text="">Lesson Title</h3>
+                    <p style="color: #64748b; margin-top: 0.5rem;">Subject: <span th:text="">math</span>  Order: <span th:text="">1</span></p>
+                    <p style="margin-top: 1rem; line-height: 1.6;" th:text="">Content</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

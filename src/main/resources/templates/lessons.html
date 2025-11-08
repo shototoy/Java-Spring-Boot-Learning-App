@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lessons</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Lessons')}"></head>
 <body>
-    <h1>lessons</h1>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
+    <div class="container">
+        <div style="margin-bottom: 2rem;">
+            <a th:href="@{/student/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+        </div>
+        <h1 style="margin-bottom: 1rem;" th:attr="data-subject=">
+            <span class="subject-icon"></span>
+            <span th:text="">Subject</span> Lessons
+        </h1>
+        <div th:if="" class="card">
+            <p style="text-align: center; color: #64748b;">No lessons available yet.</p>
+        </div>
+        <div th:each="lesson, iterStat : " class="card" th:attr="data-subject=">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <h3 th:text=" + '. ' + ">Lesson Title</h3>
+                    <p style="color: #64748b; margin-top: 1rem; line-height: 1.6;" th:text="">Lesson content</p>
+                    <div th:if="" style="margin-top: 1rem;">
+                        <a th:href="" target="_blank" style="color: #3B82F6; text-decoration: none;"> Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="" style="margin-top: 2rem;">
+            <h2 style="margin-bottom: 1rem;">Take a Quiz</h2>
+            <div style="display: grid; gap: 1rem;">
+                <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/student/quiz?id=1'|">
+                    <h4>Quick Quiz - Test Your Knowledge</h4>
+                    <p style="color: #64748b; margin-top: 0.5rem;">5 questions  15 minutes</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

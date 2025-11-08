@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>register</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Register')}"></head>
 <body>
-    <h1>register</h1>
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="card" style="width: 400px; max-width: 90%;">
+            <h1 style="text-align: center; margin-bottom: 2rem; color: #3B82F6;"> Register</h1>
+            <form th:action="@{/register}" method="post">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required placeholder="Enter password">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select name="role" required>
+                        <option value="STUDENT">Student</option>
+                        <option value="TEACHER">Teacher</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Section (Students only)</label>
+                    <input type="text" name="section" placeholder="Section A">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Register</button>
+            </form>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a th:href="@{/login}" style="color: #3B82F6; text-decoration: none;">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

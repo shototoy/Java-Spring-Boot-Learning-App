@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="subject-card(subject)" 
-         class="subject-card" 
-         th:attr="data-subject=${subject}">
+    <div th:fragment="subject-card(subject, subjectName)" class="subject-card" th:attr="data-subject=${subject}" th:onclick="|window.location.href='/student/lessons?subject=' + '${subject}'|">
         <div class="subject-icon"></div>
-        <h3 th:text="${subject}">Subject</h3>
-        <button class="btn btn-primary">Select</button>
+        <h3 th:text="${subjectName}">Subject</h3>
+        <button class="btn btn-primary">View Lessons</button>
+    </div>
+    <div th:fragment="stat-card(title, value, icon)">
+        <div class="card">
+            <h4 th:text="${title}">Stat</h4>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;">
+                <span style="font-size: 2rem;" th:text="${icon}"></span>
+                <span style="font-size: 2.5rem; font-weight: 700; color: #3B82F6;" th:text="${value}">0</span>
+            </div>
+        </div>
     </div>
 </body>
 </html>

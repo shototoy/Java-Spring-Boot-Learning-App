@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>results</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Quiz Results')}"></head>
 <body>
-    <h1>results</h1>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
+    <div class="container">
+        <div style="margin-bottom: 2rem;">
+            <a th:href="@{/student/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+        </div>
+        <h1 style="margin-bottom: 2rem;">My Quiz Results </h1>
+        <div th:if="" class="card">
+            <p style="text-align: center; color: #64748b;">No quiz attempts yet. Take your first quiz!</p>
+        </div>
+        <div th:each="attempt : " class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3>Quiz #<span th:text="">1</span></h3>
+                    <p style="color: #64748b; margin-top: 0.5rem;" th:text="">Date</p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 2rem; font-weight: 700; color: #10B981;">
+                        <span th:text="">0</span>
+                        <span style="font-size: 1.5rem; color: #64748b;">/5</span>
+                    </div>
+                    <div th:with="percentage=" style="margin-top: 0.5rem;">
+                        <span th:text=" + '%'" style="color: #64748b; font-size: 0.875rem;">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teacher-dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Teacher Dashboard')}"></head>
 <body>
-    <h1>teacher-dashboard</h1>
+    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
+    <div class="container">
+        <h1 style="margin-bottom: 2rem;">Teacher Dashboard </h1>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div th:replace="~{fragments/components :: stat-card('Total Lessons', , '')}"></div>
+            <div th:replace="~{fragments/components :: stat-card('Total Quizzes', , '')}"></div>
+            <div th:replace="~{fragments/components :: stat-card('Total Students', , '')}"></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/teacher/lessons'|">
+                <h3> Manage Lessons</h3>
+                <p style="color: #64748b; margin-top: 0.5rem;">Add, edit, or delete lessons</p>
+            </div>
+            <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/teacher/quizzes'|">
+                <h3> Manage Quizzes</h3>
+                <p style="color: #64748b; margin-top: 0.5rem;">Create and manage quizzes</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

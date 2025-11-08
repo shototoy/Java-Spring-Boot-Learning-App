@@ -1,13 +1,13 @@
 const SUBJECTS = {
     math: {
         name: "Mathematics",
-        icon: "",
+        icon: "??",
         color: "#3B82F6",
         bg: "#EFF6FF"
     },
     english: {
         name: "English",
-        icon: "",
+        icon: "??",
         color: "#10B981",
         bg: "#ECFDF5"
     },

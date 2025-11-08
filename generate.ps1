@@ -1,5 +1,7 @@
 Write-Host "Creating directory structure..." -ForegroundColor Green
 
+New-Item -ItemType Directory -Force -Path "src/main/java/com/learning/model" | Out-Null
+New-Item -ItemType Directory -Force -Path "src/main/java/com/learning/repository" | Out-Null
 New-Item -ItemType Directory -Force -Path "src/main/java/com/learning/controller" | Out-Null
 New-Item -ItemType Directory -Force -Path "src/test/java" | Out-Null
 New-Item -ItemType Directory -Force -Path "src/main/resources/static/css" | Out-Null
@@ -8,7 +10,7 @@ New-Item -ItemType Directory -Force -Path "src/main/resources/static/images" | O
 New-Item -ItemType Directory -Force -Path "src/main/resources/templates/fragments" | Out-Null
 
 Write-Host "Directories created!" -ForegroundColor Green
-Write-Host "Creating Java files..." -ForegroundColor Cyan
+Write-Host "Creating Java files WITHOUT Lombok..." -ForegroundColor Cyan
 
 $appContent = @"
 package com.learning;
@@ -25,17 +27,14 @@ public class App {
 "@
 Set-Content -Path "src/main/java/com/learning/App.java" -Value $appContent
 
-$modelsContent = @"
-package com.learning;
+$userContent = @"
+package com.learning.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "users")
-class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,12 +43,31 @@ class User {
     private String password;
     private String role;
     private String section;
-}
 
-@Data
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+    public String getSection() { return section; }
+    public void setSection(String section) { this.section = section; }
+}
+"@
+Set-Content -Path "src/main/java/com/learning/model/User.java" -Value $userContent
+
+$lessonContent = @"
+package com.learning.model;
+
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "lessons")
-class Lesson {
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -59,24 +77,58 @@ class Lesson {
     private String content;
     private String videoUrl;
     private Integer orderNum;
-}
 
-@Data
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
+    public String getVideoUrl() { return videoUrl; }
+    public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
+    public Integer getOrderNum() { return orderNum; }
+    public void setOrderNum(Integer orderNum) { this.orderNum = orderNum; }
+}
+"@
+Set-Content -Path "src/main/java/com/learning/model/Lesson.java" -Value $lessonContent
+
+$quizContent = @"
+package com.learning.model;
+
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "quizzes")
-class Quiz {
+public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subject;
     private String title;
     private Integer duration;
-}
 
-@Data
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public Integer getDuration() { return duration; }
+    public void setDuration(Integer duration) { this.duration = duration; }
+}
+"@
+Set-Content -Path "src/main/java/com/learning/model/Quiz.java" -Value $quizContent
+
+$questionContent = @"
+package com.learning.model;
+
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "questions")
-class Question {
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -87,12 +139,36 @@ class Question {
     private String optionC;
     private String optionD;
     private String correctAnswer;
-}
 
-@Data
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getQuizId() { return quizId; }
+    public void setQuizId(Long quizId) { this.quizId = quizId; }
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
+    public String getOptionA() { return optionA; }
+    public void setOptionA(String optionA) { this.optionA = optionA; }
+    public String getOptionB() { return optionB; }
+    public void setOptionB(String optionB) { this.optionB = optionB; }
+    public String getOptionC() { return optionC; }
+    public void setOptionC(String optionC) { this.optionC = optionC; }
+    public String getOptionD() { return optionD; }
+    public void setOptionD(String optionD) { this.optionD = optionD; }
+    public String getCorrectAnswer() { return correctAnswer; }
+    public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
+}
+"@
+Set-Content -Path "src/main/java/com/learning/model/Question.java" -Value $questionContent
+
+$quizAttemptContent = @"
+package com.learning.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "quiz_attempts")
-class QuizAttempt {
+public class QuizAttempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -100,68 +176,146 @@ class QuizAttempt {
     private Long quizId;
     private Integer score;
     private LocalDateTime completedAt;
-}
 
-@Data
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getStudentId() { return studentId; }
+    public void setStudentId(Long studentId) { this.studentId = studentId; }
+    public Long getQuizId() { return quizId; }
+    public void setQuizId(Long quizId) { this.quizId = quizId; }
+    public Integer getScore() { return score; }
+    public void setScore(Integer score) { this.score = score; }
+    public LocalDateTime getCompletedAt() { return completedAt; }
+    public void setCompletedAt(LocalDateTime completedAt) { this.completedAt = completedAt; }
+}
+"@
+Set-Content -Path "src/main/java/com/learning/model/QuizAttempt.java" -Value $quizAttemptContent
+
+$progressContent = @"
+package com.learning.model;
+
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "progress")
-class Progress {
+public class Progress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long studentId;
     private Long lessonId;
     private Integer completion;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getStudentId() { return studentId; }
+    public void setStudentId(Long studentId) { this.studentId = studentId; }
+    public Long getLessonId() { return lessonId; }
+    public void setLessonId(Long lessonId) { this.lessonId = lessonId; }
+    public Integer getCompletion() { return completion; }
+    public void setCompletion(Integer completion) { this.completion = completion; }
 }
 "@
-Set-Content -Path "src/main/java/com/learning/Models.java" -Value $modelsContent
+Set-Content -Path "src/main/java/com/learning/model/Progress.java" -Value $progressContent
 
-$reposContent = @"
-package com.learning;
+$userRepoContent = @"
+package com.learning.repository;
 
+import com.learning.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<User, Long> {
     User findByEmail(String email);
     List<User> findByRole(String role);
 }
+"@
+Set-Content -Path "src/main/java/com/learning/repository/UserRepo.java" -Value $userRepoContent
+
+$lessonRepoContent = @"
+package com.learning.repository;
+
+import com.learning.model.Lesson;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
-interface LessonRepo extends JpaRepository<Lesson, Long> {
+public interface LessonRepo extends JpaRepository<Lesson, Long> {
     List<Lesson> findBySubjectOrderByOrderNum(String subject);
 }
+"@
+Set-Content -Path "src/main/java/com/learning/repository/LessonRepo.java" -Value $lessonRepoContent
+
+$quizRepoContent = @"
+package com.learning.repository;
+
+import com.learning.model.Quiz;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
-interface QuizRepo extends JpaRepository<Quiz, Long> {
+public interface QuizRepo extends JpaRepository<Quiz, Long> {
     List<Quiz> findBySubject(String subject);
 }
+"@
+Set-Content -Path "src/main/java/com/learning/repository/QuizRepo.java" -Value $quizRepoContent
+
+$questionRepoContent = @"
+package com.learning.repository;
+
+import com.learning.model.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
-interface QuestionRepo extends JpaRepository<Question, Long> {
+public interface QuestionRepo extends JpaRepository<Question, Long> {
     List<Question> findByQuizId(Long quizId);
 }
+"@
+Set-Content -Path "src/main/java/com/learning/repository/QuestionRepo.java" -Value $questionRepoContent
+
+$quizAttemptRepoContent = @"
+package com.learning.repository;
+
+import com.learning.model.QuizAttempt;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
-interface QuizAttemptRepo extends JpaRepository<QuizAttempt, Long> {
+public interface QuizAttemptRepo extends JpaRepository<QuizAttempt, Long> {
     List<QuizAttempt> findByStudentId(Long studentId);
     List<QuizAttempt> findByStudentIdOrderByCompletedAtDesc(Long studentId);
 }
+"@
+Set-Content -Path "src/main/java/com/learning/repository/QuizAttemptRepo.java" -Value $quizAttemptRepoContent
+
+$progressRepoContent = @"
+package com.learning.repository;
+
+import com.learning.model.Progress;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
-interface ProgressRepo extends JpaRepository<Progress, Long> {
+public interface ProgressRepo extends JpaRepository<Progress, Long> {
     List<Progress> findByStudentId(Long studentId);
     Progress findByStudentIdAndLessonId(Long studentId, Long lessonId);
 }
 "@
-Set-Content -Path "src/main/java/com/learning/Repos.java" -Value $reposContent
+Set-Content -Path "src/main/java/com/learning/repository/ProgressRepo.java" -Value $progressRepoContent
 
 $authControllerContent = @"
 package com.learning.controller;
 
-import com.learning.*;
+import com.learning.model.User;
+import com.learning.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -238,7 +392,8 @@ Set-Content -Path "src/main/java/com/learning/controller/AuthController.java" -V
 $studentControllerContent = @"
 package com.learning.controller;
 
-import com.learning.*;
+import com.learning.model.*;
+import com.learning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -336,7 +491,8 @@ Set-Content -Path "src/main/java/com/learning/controller/StudentController.java"
 $teacherControllerContent = @"
 package com.learning.controller;
 
-import com.learning.*;
+import com.learning.model.*;
+import com.learning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -411,13 +567,13 @@ public class TeacherController {
 "@
 Set-Content -Path "src/main/java/com/learning/controller/TeacherController.java" -Value $teacherControllerContent
 
-Write-Host "Java files created!" -ForegroundColor Green
+Write-Host "Java files created (WITHOUT Lombok)!" -ForegroundColor Green
 Write-Host "Creating resource files..." -ForegroundColor Cyan
 
 $propertiesContent = @"
 spring.datasource.url=jdbc:mysql://localhost:3306/learning_db
 spring.datasource.username=root
-spring.datasource.password=yourpassword
+spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
@@ -659,16 +815,18 @@ Set-Content -Path "src/main/resources/templates/fragments/components.html" -Valu
 Write-Host "HTML template files created!" -ForegroundColor Green
 Write-Host "`n========================================" -ForegroundColor Yellow
 Write-Host "FILE STRUCTURE CREATED SUCCESSFULLY!" -ForegroundColor Green
+Write-Host "WITHOUT LOMBOK - Plain Java!" -ForegroundColor Magenta
 Write-Host "========================================`n" -ForegroundColor Yellow
 Write-Host "Created:" -ForegroundColor Cyan
-Write-Host "  ✓ 6 Java files (App, Models, Repos, 3 Controllers)" -ForegroundColor White
-Write-Host "  ✓ 11 HTML template files (9 pages + 2 fragments)" -ForegroundColor White
-Write-Host "  ✓ 3 Static files (1 CSS + 2 JS)" -ForegroundColor White
-Write-Host "  ✓ 1 application.properties" -ForegroundColor White
+Write-Host "  ✓ 6 Model files (with manual getters/setters)" -ForegroundColor White
+Write-Host "  ✓ 6 Repository files" -ForegroundColor White
+Write-Host "  ✓ 3 Controller files" -ForegroundColor White
+Write-Host "  ✓ 11 HTML template files" -ForegroundColor White
+Write-Host "  ✓ 3 Static files (CSS + JS)" -ForegroundColor White
 Write-Host "`nNext Steps:" -ForegroundColor Yellow
-Write-Host "  1. Extract Spring Boot Initializer zip" -ForegroundColor White
-Write-Host "  2. Run this script in extracted folder" -ForegroundColor White
-Write-Host "  3. Update pom.xml with dependencies" -ForegroundColor White
-Write-Host "  4. Update application.properties with DB credentials" -ForegroundColor White
-Write-Host "  5. Run: mvn spring-boot:run" -ForegroundColor White
-Write-Host "`n🚀 Ready to code!" -ForegroundColor Green
+Write-Host "  1. Update pom.xml (remove Lombok)" -ForegroundColor White
+Write-Host "  2. Delete old model files" -ForegroundColor White
+Write-Host "  3. Run this script" -ForegroundColor White
+Write-Host "  4. Clean and Build in NetBeans" -ForegroundColor White
+Write-Host "  5. Run the application!" -ForegroundColor White
+Write-Host "`n🚀 Ready to run without Lombok!" -ForegroundColor Green

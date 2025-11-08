@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student-dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Student Dashboard')}"></head>
 <body>
-    <h1>student-dashboard</h1>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
+    <div class="container">
+        <h1 style="margin-bottom: 2rem;">Welcome, <span th:text="">Student</span>! </h1>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div th:replace="~{fragments/components :: stat-card('Quizzes Taken', , '')}"></div>
+            <div th:replace="~{fragments/components :: stat-card('Lessons Completed', , '')}"></div>
+        </div>
+        <h2 style="margin-bottom: 1.5rem;">Choose a Subject</h2>
+        <div class="subject-grid">
+            <div th:replace="~{fragments/components :: subject-card('math', 'Mathematics')}"></div>
+            <div th:replace="~{fragments/components :: subject-card('english', 'English')}"></div>
+            <div th:replace="~{fragments/components :: subject-card('science', 'Science')}"></div>
+        </div>
+        <div th:if="" style="margin-top: 3rem;">
+            <h2 style="margin-bottom: 1.5rem;">Recent Quiz Results</h2>
+            <div th:each="attempt : " class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4>Quiz #<span th:text="">1</span></h4>
+                        <p style="color: #64748b; margin-top: 0.5rem;" th:text="">Date</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 1.5rem; font-weight: 700; color: #10B981;" th:text="">0</span>
+                        <span style="color: #64748b;">/</span>
+                        <span style="color: #64748b;">5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
