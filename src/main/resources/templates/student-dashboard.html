@@ -21,45 +21,44 @@
         <div class="page-header">
             <h1>Welcome, <span th:text="${userName}">Student</span></h1>
         </div>
-        <div class="stat-grid">
-            <div class="stat-card">
-                <h4>Quizzes Taken</h4>
-                <div class="stat-value" th:text="${totalQuizzes}">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Lessons Completed</h4>
-                <div class="stat-value" th:text="${totalLessons}">0</div>
-            </div>
-        </div>
-        <h2 class="section-title">Choose a Subject</h2>
-        <div class="subject-grid">
-            <div class="subject-card" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|">
-                <div class="subject-icon"></div>
-                <h3>Mathematics</h3>
-                <button class="btn btn-primary">View Lessons</button>
-            </div>
-            <div class="subject-card" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|">
-                <div class="subject-icon"></div>
-                <h3>English</h3>
-                <button class="btn btn-primary">View Lessons</button>
-            </div>
-            <div class="subject-card" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|">
-                <div class="subject-icon"></div>
-                <h3>Science</h3>
-                <button class="btn btn-primary">View Lessons</button>
-            </div>
-        </div>
-        <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}" class="mt-4">
-            <h2 class="section-title">Recent Quiz Results</h2>
-            <div th:each="attempt : ${recentAttempts}" class="card">
-                <div class="flex-between">
-                    <div>
-                        <h4>Quiz #<span th:text="${attempt.quizId}">1</span></h4>
-                        <p class="text-muted" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}">Date</p>
+        <div class="dashboard-layout">
+            <div class="main-content">
+                <h2 class="section-title">Choose a Subject</h2>
+                <div class="subject-grid-full">
+                    <div class="subject-card" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|">
+                        <div class="subject-icon"></div>
+                        <h3>Mathematics</h3>
+                        <button class="btn btn-primary">View Lessons</button>
                     </div>
-                    <div style="text-align: right;">
-                        <span style="font-size: 1.5rem; font-weight: 600; color: #10b981;" th:text="${attempt.score}">0</span>
-                        <span class="text-muted"> / 5</span>
+                    <div class="subject-card" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|">
+                        <div class="subject-icon"></div>
+                        <h3>English</h3>
+                        <button class="btn btn-primary">View Lessons</button>
+                    </div>
+                    <div class="subject-card" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|">
+                        <div class="subject-icon"></div>
+                        <h3>Science</h3>
+                        <button class="btn btn-primary">View Lessons</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="stat-card-vertical">
+                    <h4>Quizzes Taken</h4>
+                    <div class="stat-value" th:text="${totalQuizzes}">0</div>
+                </div>
+                <div class="stat-card-vertical">
+                    <h4>Lessons Completed</h4>
+                    <div class="stat-value" th:text="${totalLessons}">0</div>
+                </div>
+                <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}">
+                    <h3 class="sidebar-title">Recent Results</h3>
+                    <div th:each="attempt : ${recentAttempts}" class="result-card">
+                        <div class="result-header">
+                            <h4>Quiz #<span th:text="${attempt.quizId}">1</span></h4>
+                            <span class="result-score" th:text="${attempt.score}">0</span>
+                        </div>
+                        <p class="result-date" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}">Date</p>
                     </div>
                 </div>
             </div>

@@ -20,28 +20,35 @@
         <div class="page-header">
             <h1>Teacher Dashboard</h1>
         </div>
-        <div class="stat-grid">
-            <div class="stat-card">
-                <h4>Total Lessons</h4>
-                <div class="stat-value" th:text="${totalLessons}">0</div>
+        <div class="dashboard-layout">
+            <div class="main-content">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="action-grid">
+                    <div class="action-card" th:onclick="|window.location.href='/teacher/lessons'|">
+                        <div class="action-icon">📚</div>
+                        <h3>Manage Lessons</h3>
+                        <p>Add, edit, or delete lessons</p>
+                    </div>
+                    <div class="action-card" th:onclick="|window.location.href='/teacher/quizzes'|">
+                        <div class="action-icon">📝</div>
+                        <h3>Manage Quizzes</h3>
+                        <p>Create and manage quizzes</p>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-                <h4>Total Quizzes</h4>
-                <div class="stat-value" th:text="${totalQuizzes}">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Total Students</h4>
-                <div class="stat-value" th:text="${totalStudents}">0</div>
-            </div>
-        </div>
-        <div class="subject-grid">
-            <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/teacher/lessons'|">
-                <h3>Manage Lessons</h3>
-                <p class="text-muted mt-1">Add, edit, or delete lessons</p>
-            </div>
-            <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/teacher/quizzes'|">
-                <h3>Manage Quizzes</h3>
-                <p class="text-muted mt-1">Create and manage quizzes</p>
+            <div class="sidebar">
+                <div class="stat-card-vertical">
+                    <h4>Total Lessons</h4>
+                    <div class="stat-value" th:text="${totalLessons}">0</div>
+                </div>
+                <div class="stat-card-vertical">
+                    <h4>Total Quizzes</h4>
+                    <div class="stat-value" th:text="${totalQuizzes}">0</div>
+                </div>
+                <div class="stat-card-vertical">
+                    <h4>Total Students</h4>
+                    <div class="stat-value" th:text="${totalStudents}">0</div>
+                </div>
             </div>
         </div>
     </div>
