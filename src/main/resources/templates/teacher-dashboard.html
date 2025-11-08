@@ -1,23 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Teacher Dashboard')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
-    <div class="container">
-        <h1 style="margin-bottom: 2rem;">Teacher Dashboard </h1>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-            <div th:replace="~{fragments/components :: stat-card('Total Lessons', , '')}"></div>
-            <div th:replace="~{fragments/components :: stat-card('Total Quizzes', , '')}"></div>
-            <div th:replace="~{fragments/components :: stat-card('Total Students', , '')}"></div>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/teacher/dashboard}">Dashboard</a>
+            <a th:href="@{/teacher/lessons}">Manage Lessons</a>
+            <a th:href="@{/teacher/quizzes}">Manage Quizzes</a>
+            <a th:href="@{/logout}">Logout</a>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+    </nav>
+    <div class="container">
+        <div class="page-header">
+            <h1>Teacher Dashboard</h1>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <h4>Total Lessons</h4>
+                <div class="stat-value" th:text="${totalLessons}">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Quizzes</h4>
+                <div class="stat-value" th:text="${totalQuizzes}">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Students</h4>
+                <div class="stat-value" th:text="${totalStudents}">0</div>
+            </div>
+        </div>
+        <div class="subject-grid">
             <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/teacher/lessons'|">
-                <h3> Manage Lessons</h3>
-                <p style="color: #64748b; margin-top: 0.5rem;">Add, edit, or delete lessons</p>
+                <h3>Manage Lessons</h3>
+                <p class="text-muted mt-1">Add, edit, or delete lessons</p>
             </div>
             <div class="card" style="cursor: pointer;" th:onclick="|window.location.href='/teacher/quizzes'|">
-                <h3> Manage Quizzes</h3>
-                <p style="color: #64748b; margin-top: 0.5rem;">Create and manage quizzes</p>
+                <h3>Manage Quizzes</h3>
+                <p class="text-muted mt-1">Create and manage quizzes</p>
             </div>
         </div>
     </div>

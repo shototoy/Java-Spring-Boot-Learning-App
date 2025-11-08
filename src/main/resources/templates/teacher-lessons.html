@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Manage Lessons')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Lessons</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
-    <div class="container">
-        <div style="margin-bottom: 2rem;">
-            <a th:href="@{/teacher/dashboard}" style="color: #3B82F6; text-decoration: none;"> Back to Dashboard</a>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/teacher/dashboard}">Dashboard</a>
+            <a th:href="@{/teacher/lessons}">Manage Lessons</a>
+            <a th:href="@{/teacher/quizzes}">Manage Quizzes</a>
+            <a th:href="@{/logout}">Logout</a>
         </div>
-        <h1 style="margin-bottom: 2rem;">Manage Lessons </h1>
+    </nav>
+    <div class="container">
+        <div class="mb-2">
+            <a th:href="@{/teacher/dashboard}" class="back-link">← Back to Dashboard</a>
+        </div>
+        <div class="page-header">
+            <h1>Manage Lessons</h1>
+        </div>
         <div class="card">
-            <h3 style="margin-bottom: 1.5rem;">Add New Lesson</h3>
+            <h3 class="mb-3">Add New Lesson</h3>
             <form th:action="@{/teacher/lesson/add}" method="post">
                 <div class="form-group">
                     <label>Subject</label>
@@ -38,16 +53,26 @@
                 <button type="submit" class="btn btn-primary">Add Lesson</button>
             </form>
         </div>
-        <h2 style="margin: 2rem 0 1rem;">All Lessons</h2>
-        <div th:if="" class="card">
-            <p style="text-align: center; color: #64748b;">No lessons yet.</p>
+        <h2 class="section-title mt-4">All Lessons</h2>
+        <div th:if="${lessons == null or lessons.isEmpty()}" class="card">
+            <p class="text-center text-muted">No lessons yet.</p>
         </div>
-        <div th:each="lesson : " class="card">
-            <div style="display: flex; justify-content: space-between; align-items: start;">
-                <div>
-                    <h3 th:text="">Lesson Title</h3>
-                    <p style="color: #64748b; margin-top: 0.5rem;">Subject: <span th:text="">math</span>  Order: <span th:text="">1</span></p>
-                    <p style="margin-top: 1rem; line-height: 1.6;" th:text="">Content</p>
+        <div th:each="lesson : ${lessons}" class="card">
+            <div class="flex-between">
+                <div style="flex: 1;">
+                    <h3 th:text="${lesson.title}">Lesson Title</h3>
+                    <p class="text-muted mt-1">
+                        Subject: <span style="text-transform: capitalize;" th:text="${lesson.subject}">math</span> | 
+                        Order: <span th:text="${lesson.orderNum}">1</span>
+                    </p>
+                    <p class="lesson-content mt-2" th:text="${lesson.content}">Content</p>
+                </div>
+                <div class="flex gap-1" style="margin-left: 1rem;">
+                    <form th:action="@{/teacher/lesson/delete}" method="post" style="display: inline;" 
+                          onsubmit="return confirm('Are you sure you want to delete this lesson?');">
+                        <input type="hidden" name="id" th:value="${lesson.id}">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
