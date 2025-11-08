@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/student")
@@ -25,8 +25,21 @@ public class StudentController {
     @Autowired
     private ProgressRepo progressRepo;
     
+    private String checkSession(HttpSession session) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+        if (!"STUDENT".equals(session.getAttribute("userRole"))) {
+            return "redirect:/login";
+        }
+        return null;
+    }
+    
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
+        String redirect = checkSession(session);
+        if (redirect != null) return redirect;
+        
         Long userId = (Long) session.getAttribute("userId");
         String userName = (String) session.getAttribute("userName");
         
@@ -36,39 +49,62 @@ public class StudentController {
         model.addAttribute("userName", userName);
         model.addAttribute("totalQuizzes", attempts.size());
         model.addAttribute("totalLessons", progress.size());
-        model.addAttribute("recentAttempts", attempts.stream().limit(5).toList());
+        model.addAttribute("recentAttempts", attempts.size() > 5 ? attempts.subList(0, 5) : attempts);
         
         return "student-dashboard";
     }
     
     @GetMapping("/lessons")
-    public String lessons(@RequestParam String subject, Model model) {
+    public String lessons(@RequestParam String subject, HttpSession session, Model model) {
+        String redirect = checkSession(session);
+        if (redirect != null) return redirect;
+        
         List<Lesson> lessons = lessonRepo.findBySubjectOrderByOrderNum(subject);
+        List<Quiz> quizzes = quizRepo.findBySubject(subject);
+        
         model.addAttribute("subject", subject);
         model.addAttribute("lessons", lessons);
+        model.addAttribute("quizzes", quizzes);
+        
         return "lessons";
     }
     
     @GetMapping("/quiz")
-    public String quiz(@RequestParam Long id, Model model) {
+    public String quiz(@RequestParam Long id, HttpSession session, Model model) {
+        String redirect = checkSession(session);
+        if (redirect != null) return redirect;
+        
         Quiz quiz = quizRepo.findById(id).orElse(null);
+        if (quiz == null) {
+            return "redirect:/student/dashboard";
+        }
+        
         List<Question> questions = questionRepo.findByQuizId(id);
+        Long userId = (Long) session.getAttribute("userId");
+        
         model.addAttribute("quiz", quiz);
         model.addAttribute("questions", questions);
+        model.addAttribute("studentId", userId);
+        
         return "quiz-take";
     }
     
     @PostMapping("/quiz/submit")
     public String submitQuiz(@RequestParam Long quizId,
-                            @RequestParam List<String> answers,
+                            @RequestParam Map<String, String> allParams,
                             HttpSession session,
                             Model model) {
+        String redirect = checkSession(session);
+        if (redirect != null) return redirect;
+        
         Long userId = (Long) session.getAttribute("userId");
         List<Question> questions = questionRepo.findByQuizId(quizId);
         
         int score = 0;
-        for (int i = 0; i < questions.size(); i++) {
-            if (i < answers.size() && questions.get(i).getCorrectAnswer().equals(answers.get(i))) {
+        for (Question q : questions) {
+            String answerKey = "answer_" + q.getId();
+            String userAnswer = allParams.get(answerKey);
+            if (userAnswer != null && userAnswer.equals(q.getCorrectAnswer())) {
                 score++;
             }
         }
@@ -80,16 +116,52 @@ public class StudentController {
         attempt.setCompletedAt(LocalDateTime.now());
         attemptRepo.save(attempt);
         
-        model.addAttribute("score", score);
-        model.addAttribute("total", questions.size());
         return "redirect:/student/results";
     }
     
     @GetMapping("/results")
     public String results(HttpSession session, Model model) {
+        String redirect = checkSession(session);
+        if (redirect != null) return redirect;
+        
         Long userId = (Long) session.getAttribute("userId");
         List<QuizAttempt> attempts = attemptRepo.findByStudentIdOrderByCompletedAtDesc(userId);
+        
+        Map<Long, String> quizTitles = new HashMap<>();
+        Map<Long, String> quizSubjects = new HashMap<>();
+        for (QuizAttempt attempt : attempts) {
+            Quiz quiz = quizRepo.findById(attempt.getQuizId()).orElse(null);
+            if (quiz != null) {
+                quizTitles.put(attempt.getQuizId(), quiz.getTitle());
+                quizSubjects.put(attempt.getQuizId(), quiz.getSubject());
+            }
+        }
+        
         model.addAttribute("attempts", attempts);
+        model.addAttribute("quizTitles", quizTitles);
+        model.addAttribute("quizSubjects", quizSubjects);
+        
         return "results";
+    }
+    
+    @PostMapping("/progress/update")
+    public String updateProgress(@RequestParam Long lessonId,
+                                @RequestParam Integer completion,
+                                HttpSession session) {
+        String redirect = checkSession(session);
+        if (redirect != null) return redirect;
+        
+        Long userId = (Long) session.getAttribute("userId");
+        
+        Progress progress = progressRepo.findByStudentIdAndLessonId(userId, lessonId);
+        if (progress == null) {
+            progress = new Progress();
+            progress.setStudentId(userId);
+            progress.setLessonId(lessonId);
+        }
+        progress.setCompletion(completion);
+        progressRepo.save(progress);
+        
+        return "redirect:/student/dashboard";
     }
 }

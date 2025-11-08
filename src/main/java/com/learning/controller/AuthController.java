@@ -15,12 +15,23 @@ public class AuthController {
     private UserRepo userRepo;
     
     @GetMapping("/")
-    public String home() {
+    public String home(HttpSession session) {
+        if (session.getAttribute("userId") != null) {
+            String role = (String) session.getAttribute("userRole");
+            if ("STUDENT".equals(role)) {
+                return "redirect:/student/dashboard";
+            } else if ("TEACHER".equals(role)) {
+                return "redirect:/teacher/dashboard";
+            }
+        }
         return "redirect:/login";
     }
     
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpSession session) {
+        if (session.getAttribute("userId") != null) {
+            return "redirect:/";
+        }
         return "login";
     }
     
@@ -29,7 +40,14 @@ public class AuthController {
                          @RequestParam String password, 
                          HttpSession session,
                          Model model) {
-        User user = userRepo.findByEmail(email);
+        if (email == null || email.trim().isEmpty() || 
+            password == null || password.trim().isEmpty()) {
+            model.addAttribute("error", "Email and password are required");
+            return "login";
+        }
+        
+        User user = userRepo.findByEmail(email.trim());
+        
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("userId", user.getId());
             session.setAttribute("userRole", user.getRole());
@@ -41,12 +59,16 @@ public class AuthController {
                 return "redirect:/teacher/dashboard";
             }
         }
-        model.addAttribute("error", "Invalid credentials");
+        
+        model.addAttribute("error", "Invalid email or password");
         return "login";
     }
     
     @GetMapping("/register")
-    public String register() {
+    public String register(HttpSession session) {
+        if (session.getAttribute("userId") != null) {
+            return "redirect:/";
+        }
         return "register";
     }
     
@@ -55,15 +77,30 @@ public class AuthController {
                             @RequestParam String email,
                             @RequestParam String password,
                             @RequestParam String role,
-                            @RequestParam(required = false) String section) {
+                            @RequestParam(required = false) String section,
+                            Model model) {
+        if (name == null || name.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() ||
+            password == null || password.trim().isEmpty() ||
+            role == null || role.trim().isEmpty()) {
+            model.addAttribute("error", "All required fields must be filled");
+            return "register";
+        }
+        
+        if (userRepo.findByEmail(email.trim()) != null) {
+            model.addAttribute("error", "Email already registered");
+            return "register";
+        }
+        
         User user = new User();
-        user.setName(name);
-        user.setEmail(email);
+        user.setName(name.trim());
+        user.setEmail(email.trim());
         user.setPassword(password);
         user.setRole(role);
-        user.setSection(section);
+        user.setSection(section != null ? section.trim() : null);
         userRepo.save(user);
-        return "redirect:/login";
+        
+        return "redirect:/login?registered=true";
     }
     
     @GetMapping("/logout")
