@@ -1,44 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Teacher Dashboard')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/teacher/dashboard}">Dashboard</a>
+            <a th:href="@{/teacher/lessons}">Manage Lessons</a>
+            <a th:href="@{/teacher/quizzes}">Manage Quizzes</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
     <div class="container">
         <div class="page-header">
-            <h1>Teacher Dashboard ?????</h1>
+            <h1>Teacher Dashboard</h1>
         </div>
-        <div class="stats-grid mb-4">
-            <div th:replace="~{fragments/components :: stat-card('Total Lessons', ${totalLessons}, '??')}"></div>
-            <div th:replace="~{fragments/components :: stat-card('Total Quizzes', ${totalQuizzes}, '??')}"></div>
-            <div th:replace="~{fragments/components :: stat-card('Total Students', ${totalStudents}, '??')}"></div>
-        </div>
-        <div class="action-grid">
-            <a th:href="@{/teacher/lessons}" class="action-card" style="text-decoration:none;">
-                <div class="action-icon">??</div>
-                <h3>Manage Lessons</h3>
-                <p class="text-muted mt-1">Add, edit, or delete lessons</p>
-            </a>
-            <a th:href="@{/teacher/quizzes}" class="action-card" style="text-decoration:none;">
-                <div class="action-icon">??</div>
-                <h3>Manage Quizzes</h3>
-                <p class="text-muted mt-1">Create and manage quizzes</p>
-            </a>
-        </div>
-        <div th:if="${topStudents != null and !topStudents.isEmpty()}" class="mt-4">
-            <h2 class="section-title">Top Students ??</h2>
-            <div th:each="entry : ${topStudents}" class="card">
-                <div class="flex-between">
-                    <div class="leaderboard-info">
-                        <span class="leaderboard-rank" th:text="'#' + ${entry.rank}">1</span>
-                        <div>
-                            <h4 th:text="${entry.name}">Name</h4>
-                            <p class="text-muted small" th:text="${entry.section}">Section</p>
-                        </div>
+        <div class="dashboard-layout">
+            <div class="main-content">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="action-grid">
+                    <div class="action-card" th:onclick="|window.location.href='/teacher/lessons'|">
+                        <div class="action-icon">📚</div>
+                        <h3>Manage Lessons</h3>
+                        <p>Add, edit, or delete lessons</p>
                     </div>
-                    <div class="text-right">
-                        <div class="leaderboard-score" th:text="${entry.totalScore}">0</div>
-                        <p class="text-muted small" th:text="${entry.totalQuizzes} + ' quizzes'">0 quizzes</p>
+                    <div class="action-card" th:onclick="|window.location.href='/teacher/quizzes'|">
+                        <div class="action-icon">📝</div>
+                        <h3>Manage Quizzes</h3>
+                        <p>Create and manage quizzes</p>
                     </div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="stat-card-vertical">
+                    <h4>Total Lessons</h4>
+                    <div class="stat-value" th:text="${totalLessons}">0</div>
+                </div>
+                <div class="stat-card-vertical">
+                    <h4>Total Quizzes</h4>
+                    <div class="stat-value" th:text="${totalQuizzes}">0</div>
+                </div>
+                <div class="stat-card-vertical">
+                    <h4>Total Students</h4>
+                    <div class="stat-value" th:text="${totalStudents}">0</div>
                 </div>
             </div>
         </div>

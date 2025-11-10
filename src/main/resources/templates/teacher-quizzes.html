@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Manage Quizzes')}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Quizzes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
+    <nav>
+        <div class="nav-brand">Grade 6 Learning</div>
+        <div class="nav-menu">
+            <a th:href="@{/teacher/dashboard}">Dashboard</a>
+            <a th:href="@{/teacher/lessons}">Manage Lessons</a>
+            <a th:href="@{/teacher/quizzes}">Manage Quizzes</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </nav>
     <div class="container">
         <div class="mb-2">
-            <a th:href="@{/teacher/dashboard}" class="back-link">? Back to Dashboard</a>
+            <a th:href="@{/teacher/dashboard}" class="back-link">← Back to Dashboard</a>
         </div>
         <div class="page-header">
-            <h1>Manage Quizzes ??</h1>
+            <h1>Manage Quizzes</h1>
         </div>
         <div class="dashboard-layout">
             <div class="main-content">
@@ -18,18 +31,19 @@
                 </div>
                 <div th:each="quiz : ${quizzes}" class="card">
                     <div class="flex-between">
-                        <div class="flex-1">
+                        <div style="flex: 1;">
                             <h3 th:text="${quiz.title}">Quiz Title</h3>
                             <p class="text-muted mt-1">
-                                Subject: <span class="subject-label" th:text="${quiz.subject}">math</span> | 
+                                Subject: <span style="text-transform: capitalize;" th:text="${quiz.subject}">math</span> | 
                                 Duration: <span th:text="${quiz.duration}">15</span> minutes
                             </p>
                         </div>
-                        <div class="action-buttons">
-                            <a th:href="@{/teacher/quiz/questions(quizId=${quiz.id})}" class="btn btn-secondary btn-sm">
+                        <div class="flex gap-1" style="margin-left: 1rem;">
+                            <button class="btn btn-secondary btn-sm" th:onclick="|window.location.href='/teacher/quiz/questions?quizId=' + ${quiz.id}|">
                                 Manage Questions
-                            </a>
-                            <form th:action="@{/teacher/quiz/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');" style="display:inline;">
+                            </button>
+                            <form th:action="@{/teacher/quiz/delete}" method="post" style="display: inline;" 
+                                  onsubmit="return confirm('Are you sure you want to delete this quiz?');">
                                 <input type="hidden" name="id" th:value="${quiz.id}">
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
@@ -38,7 +52,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <div class="card sticky-form">
+                <div class="card" style="margin-bottom: 0; position: sticky; top: 2rem;">
                     <h3 class="mb-3">Add New Quiz</h3>
                     <form th:action="@{/teacher/quiz/add}" method="post">
                         <div class="form-group">
