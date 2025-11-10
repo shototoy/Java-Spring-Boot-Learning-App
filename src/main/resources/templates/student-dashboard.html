@@ -1,64 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Student Dashboard')}"></head>
 <body>
-    <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
-            <a th:href="@{/student/dashboard}">Dashboard</a>
-            <a th:href="@{/student/results}">My Results</a>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
     <div class="container">
         <div class="page-header">
-            <h1>Welcome, <span th:text="${userName}">Student</span></h1>
+            <h1>Welcome, <span th:text="${userName}">Student</span>! ??</h1>
         </div>
-        <div class="dashboard-layout">
+        <div class="stats-grid mb-4">
+            <div th:replace="~{fragments/components :: stat-card('Quizzes Taken', ${totalQuizzes}, '??')}"></div>
+            <div th:replace="~{fragments/components :: stat-card('Lessons Completed', ${totalLessons}, '??')}"></div>
+        </div>
+        <h2 class="section-title">Choose a Subject</h2>
+        <div class="subject-grid">
+            <a th:href="@{/student/lessons(subject='math')}" style="text-decoration:none;">
+                <div th:replace="~{fragments/components :: subject-card('math', 'Mathematics')}"></div>
+            </a>
+            <a th:href="@{/student/lessons(subject='english')}" style="text-decoration:none;">
+                <div th:replace="~{fragments/components :: subject-card('english', 'English')}"></div>
+            </a>
+            <a th:href="@{/student/lessons(subject='science')}" style="text-decoration:none;">
+                <div th:replace="~{fragments/components :: subject-card('science', 'Science')}"></div>
+            </a>
+        </div>
+        <div class="dashboard-layout mt-4">
             <div class="main-content">
-                <h2 class="section-title">Choose a Subject</h2>
-                <div class="subject-grid-full">
-                    <div class="subject-card" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|">
-                        <div class="subject-icon"></div>
-                        <h3>Mathematics</h3>
-                        <button class="btn btn-primary">View Lessons</button>
-                    </div>
-                    <div class="subject-card" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|">
-                        <div class="subject-icon"></div>
-                        <h3>English</h3>
-                        <button class="btn btn-primary">View Lessons</button>
-                    </div>
-                    <div class="subject-card" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|">
-                        <div class="subject-icon"></div>
-                        <h3>Science</h3>
-                        <button class="btn btn-primary">View Lessons</button>
+                <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}">
+                    <h2 class="section-title">Recent Quiz Results</h2>
+                    <div th:each="attempt : ${recentAttempts}" class="card">
+                        <div class="flex-between">
+                            <div>
+                                <h4>Quiz #<span th:text="${attempt.quizId}">1</span></h4>
+                                <p class="text-muted mt-1" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}">Date</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="result-score" th:text="${attempt.score}">0</span>
+                                <span class="text-muted">/5</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="sidebar">
-                <div class="stat-card-vertical">
-                    <h4>Quizzes Taken</h4>
-                    <div class="stat-value" th:text="${totalQuizzes}">0</div>
-                </div>
-                <div class="stat-card-vertical">
-                    <h4>Lessons Completed</h4>
-                    <div class="stat-value" th:text="${totalLessons}">0</div>
-                </div>
-                <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}">
-                    <h3 class="sidebar-title">Recent Results</h3>
-                    <div th:each="attempt : ${recentAttempts}" class="result-card">
-                        <div class="result-header">
-                            <h4>Quiz #<span th:text="${attempt.quizId}">1</span></h4>
-                            <span class="result-score" th:text="${attempt.score}">0</span>
+                <div th:if="${leaderboard != null and !leaderboard.isEmpty()}">
+                    <h3 class="sidebar-title">Leaderboard ??</h3>
+                    <div th:each="entry : ${leaderboard}" class="card" th:classappend="${entry.isCurrentUser ? 'highlight-card' : ''}">
+                        <div class="flex-between">
+                            <div class="leaderboard-info">
+                                <span class="leaderboard-rank" th:text="'#' + ${entry.rank}">1</span>
+                                <div>
+                                    <h4 th:text="${entry.name}">Name</h4>
+                                    <p class="text-muted small" th:text="${entry.section}">Section</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="leaderboard-score" th:text="${entry.totalScore}">0</div>
+                                <p class="text-muted small" th:text="${entry.totalQuizzes} + ' quizzes'">0 quizzes</p>
+                            </div>
                         </div>
-                        <p class="result-date" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}">Date</p>
                     </div>
                 </div>
             </div>

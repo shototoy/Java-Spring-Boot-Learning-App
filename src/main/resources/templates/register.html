@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Learning App</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/layout :: head('Register')}"></head>
 <body>
     <div class="auth-container">
         <div class="auth-card">
-            <h1>Grade 6 Learning</h1>
-            <h2>Register</h2>
+            <h1 class="text-center mb-2">?? Register</h1>
             <div th:if="${error}" class="alert alert-error">
                 <span th:text="${error}">Error message</span>
             </div>
@@ -35,10 +29,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Section (Optional - Students only)</label>
+                    <label>Section (Students only)</label>
                     <input type="text" name="section" placeholder="Section A">
                 </div>
-                <button type="submit" class="btn btn-primary w-full">Register</button>
+                <button type="submit" class="btn btn-primary w-full mt-2">Register</button>
             </form>
             <div class="text-center mt-3">
                 <a th:href="@{/login}" class="link">Already have an account? Login</a>

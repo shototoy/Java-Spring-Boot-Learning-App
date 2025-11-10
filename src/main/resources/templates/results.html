@@ -1,28 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Results</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Quiz Results')}"></head>
 <body>
-    <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
-            <a th:href="@{/student/dashboard}">Dashboard</a>
-            <a th:href="@{/student/results}">My Results</a>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
     <div class="container">
         <div class="mb-2">
-            <a th:href="@{/student/dashboard}" class="back-link">← Back to Dashboard</a>
+            <a th:href="@{/student/dashboard}" class="back-link">? Back to Dashboard</a>
         </div>
         <div class="page-header">
-            <h1>My Quiz Results</h1>
+            <h1>My Quiz Results ??</h1>
         </div>
         <div th:if="${attempts == null or attempts.isEmpty()}" class="card">
             <p class="text-center text-muted">No quiz attempts yet. Take your first quiz!</p>
@@ -31,14 +17,14 @@
             <div class="flex-between">
                 <div>
                     <h3 th:text="${quizTitles.get(attempt.quizId)}">Quiz Title</h3>
-                    <p class="text-muted" th:text="${#temporals.format(attempt.completedAt, 'MMMM dd, yyyy - HH:mm')}">Date</p>
+                    <p class="text-muted mt-1" th:text="${#temporals.format(attempt.completedAt, 'MMMM dd, yyyy - HH:mm')}">Date</p>
                 </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 2rem; font-weight: 600; color: #10b981;">
+                <div class="text-right">
+                    <div class="result-score-large">
                         <span th:text="${attempt.score}">0</span>
-                        <span style="font-size: 1.5rem; color: #64748b;">/5</span>
+                        <span class="text-muted">/5</span>
                     </div>
-                    <div th:with="percentage=${attempt.score * 20}">
+                    <div th:with="percentage=${attempt.score * 20}" class="mt-1">
                         <span th:text="${percentage} + '%'" class="text-muted">0%</span>
                     </div>
                 </div>

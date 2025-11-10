@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Learning App</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/layout :: head('Login')}"></head>
 <body>
     <div class="auth-container">
         <div class="auth-card">
-            <h1>Grade 6 Learning</h1>
-            <h2>Login</h2>
+            <h1 class="text-center mb-2">?? Grade 6 Learning</h1>
+            <h2 class="text-center mb-3">Login</h2>
             <div th:if="${error}" class="alert alert-error">
                 <span th:text="${error}">Error message</span>
             </div>
@@ -26,13 +21,13 @@
                     <label>Password</label>
                     <input type="password" name="password" required placeholder="Enter password">
                 </div>
-                <button type="submit" class="btn btn-primary w-full">Login</button>
+                <button type="submit" class="btn btn-primary w-full mt-2">Login</button>
             </form>
             <div class="text-center mt-3">
                 <a th:href="@{/register}" class="link">Don't have an account? Register</a>
             </div>
-            <div class="mt-4" style="padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                <p class="text-muted text-center">Demo Accounts</p>
+            <div class="demo-accounts">
+                <p class="text-muted text-center">Demo Accounts:</p>
                 <p class="text-muted text-center">Teacher: teacher@school.com / teacher123</p>
                 <p class="text-muted text-center">Student: john@student.com / student123</p>
             </div>

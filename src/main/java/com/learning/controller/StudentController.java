@@ -1,5 +1,4 @@
 package com.learning.controller;
-
 import com.learning.model.*;
 import com.learning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.*;
-
+import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
-    
     @Autowired
     private LessonRepo lessonRepo;
     @Autowired
@@ -24,7 +22,8 @@ public class StudentController {
     private QuizAttemptRepo attemptRepo;
     @Autowired
     private ProgressRepo progressRepo;
-    
+    @Autowired
+    private UserRepo userRepo;
     private String checkSession(HttpSession session) {
         if (session.getAttribute("userId") == null) {
             return "redirect:/login";
@@ -34,72 +33,80 @@ public class StudentController {
         }
         return null;
     }
-    
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         String redirect = checkSession(session);
         if (redirect != null) return redirect;
-        
         Long userId = (Long) session.getAttribute("userId");
         String userName = (String) session.getAttribute("userName");
-        
         List<QuizAttempt> attempts = attemptRepo.findByStudentIdOrderByCompletedAtDesc(userId);
         List<Progress> progress = progressRepo.findByStudentId(userId);
-        
+        List<LeaderboardEntry> leaderboard = getLeaderboardWithCurrentUser(userId);
         model.addAttribute("userName", userName);
         model.addAttribute("totalQuizzes", attempts.size());
         model.addAttribute("totalLessons", progress.size());
         model.addAttribute("recentAttempts", attempts.size() > 5 ? attempts.subList(0, 5) : attempts);
-        
+        model.addAttribute("leaderboard", leaderboard);
         return "student-dashboard";
     }
-    
+    private List<LeaderboardEntry> getLeaderboardWithCurrentUser(Long userId) {
+        List<Object[]> results = userRepo.findLeaderboard();
+        List<LeaderboardEntry> entries = new ArrayList<>();
+        int rank = 1;
+        LeaderboardEntry currentUserEntry = null;
+        for (Object[] row : results) {
+            LeaderboardEntry entry = new LeaderboardEntry(
+                ((Number) row[0]).longValue(),
+                (String) row[1],
+                (String) row[2],
+                row[3] != null ? ((Number) row[3]).intValue() : 0,
+                row[4] != null ? ((Number) row[4]).intValue() : 0,
+                row[5] != null ? ((Number) row[5]).doubleValue() : 0.0
+            );
+            entry.setRank(rank++);
+            entry.setIsCurrentUser(entry.getId().equals(userId));
+            if (entry.getIsCurrentUser()) {
+                currentUserEntry = entry;
+            }
+            entries.add(entry);
+        }
+        List<LeaderboardEntry> displayList = entries.stream().limit(3).collect(Collectors.toList());
+        if (currentUserEntry != null && currentUserEntry.getRank() > 3) {
+            displayList.add(currentUserEntry);
+        }
+        return displayList;
+    }
     @GetMapping("/lessons")
     public String lessons(@RequestParam String subject, HttpSession session, Model model) {
         String redirect = checkSession(session);
         if (redirect != null) return redirect;
-        
         List<Lesson> lessons = lessonRepo.findBySubjectOrderByOrderNum(subject);
         List<Quiz> quizzes = quizRepo.findBySubject(subject);
-        
         model.addAttribute("subject", subject);
         model.addAttribute("lessons", lessons);
         model.addAttribute("quizzes", quizzes);
-        
         return "lessons";
     }
-    
     @GetMapping("/quiz")
     public String quiz(@RequestParam Long id, HttpSession session, Model model) {
         String redirect = checkSession(session);
         if (redirect != null) return redirect;
-        
         Quiz quiz = quizRepo.findById(id).orElse(null);
         if (quiz == null) {
             return "redirect:/student/dashboard";
         }
-        
         List<Question> questions = questionRepo.findByQuizId(id);
-        Long userId = (Long) session.getAttribute("userId");
-        
+        Collections.shuffle(questions);
         model.addAttribute("quiz", quiz);
         model.addAttribute("questions", questions);
-        model.addAttribute("studentId", userId);
-        
         return "quiz-take";
     }
-    
     @PostMapping("/quiz/submit")
-    public String submitQuiz(@RequestParam Long quizId,
-                            @RequestParam Map<String, String> allParams,
-                            HttpSession session,
-                            Model model) {
+    public String submitQuiz(@RequestParam Long quizId, @RequestParam Map<String, String> allParams, HttpSession session) {
         String redirect = checkSession(session);
         if (redirect != null) return redirect;
-        
         Long userId = (Long) session.getAttribute("userId");
         List<Question> questions = questionRepo.findByQuizId(quizId);
-        
         int score = 0;
         for (Question q : questions) {
             String answerKey = "answer_" + q.getId();
@@ -108,25 +115,20 @@ public class StudentController {
                 score++;
             }
         }
-        
         QuizAttempt attempt = new QuizAttempt();
         attempt.setStudentId(userId);
         attempt.setQuizId(quizId);
         attempt.setScore(score);
         attempt.setCompletedAt(LocalDateTime.now());
         attemptRepo.save(attempt);
-        
         return "redirect:/student/results";
     }
-    
     @GetMapping("/results")
     public String results(HttpSession session, Model model) {
         String redirect = checkSession(session);
         if (redirect != null) return redirect;
-        
         Long userId = (Long) session.getAttribute("userId");
         List<QuizAttempt> attempts = attemptRepo.findByStudentIdOrderByCompletedAtDesc(userId);
-        
         Map<Long, String> quizTitles = new HashMap<>();
         Map<Long, String> quizSubjects = new HashMap<>();
         for (QuizAttempt attempt : attempts) {
@@ -136,23 +138,16 @@ public class StudentController {
                 quizSubjects.put(attempt.getQuizId(), quiz.getSubject());
             }
         }
-        
         model.addAttribute("attempts", attempts);
         model.addAttribute("quizTitles", quizTitles);
         model.addAttribute("quizSubjects", quizSubjects);
-        
         return "results";
     }
-    
     @PostMapping("/progress/update")
-    public String updateProgress(@RequestParam Long lessonId,
-                                @RequestParam Integer completion,
-                                HttpSession session) {
+    public String updateProgress(@RequestParam Long lessonId, @RequestParam Integer completion, HttpSession session) {
         String redirect = checkSession(session);
         if (redirect != null) return redirect;
-        
         Long userId = (Long) session.getAttribute("userId");
-        
         Progress progress = progressRepo.findByStudentIdAndLessonId(userId, lessonId);
         if (progress == null) {
             progress = new Progress();
@@ -161,7 +156,6 @@ public class StudentController {
         }
         progress.setCompletion(completion);
         progressRepo.save(progress);
-        
         return "redirect:/student/dashboard";
     }
 }

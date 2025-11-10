@@ -1,29 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Quiz Questions</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/layout :: head('Manage Quiz Questions')}"></head>
 <body>
-    <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
-            <a th:href="@{/teacher/dashboard}">Dashboard</a>
-            <a th:href="@{/teacher/lessons}">Manage Lessons</a>
-            <a th:href="@{/teacher/quizzes}">Manage Quizzes</a>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: nav('TEACHER')}"></nav>
     <div class="container">
         <div class="mb-2">
-            <a th:href="@{/teacher/quizzes}" class="back-link">← Back to Quizzes</a>
+            <a th:href="@{/teacher/quizzes}" class="back-link">? Back to Quizzes</a>
         </div>
         <div class="page-header">
             <h1>Manage Questions: <span th:text="${quiz.title}">Quiz Title</span></h1>
         </div>
-        <div class="card">
+        <div class="card mb-4">
             <h3 class="mb-3">Add New Question</h3>
             <form th:action="@{/teacher/question/add}" method="post">
                 <input type="hidden" name="quizId" th:value="${quiz.id}">
@@ -59,28 +46,27 @@
                 <button type="submit" class="btn btn-primary">Add Question</button>
             </form>
         </div>
-        <h2 class="section-title mt-4">Questions</h2>
+        <h2 class="section-title">Questions</h2>
         <div th:if="${questions == null or questions.isEmpty()}" class="card">
             <p class="text-center text-muted">No questions yet. Add your first question above.</p>
         </div>
         <div th:each="question, iterStat : ${questions}" class="card">
             <div class="flex-between">
-                <div style="flex: 1;">
+                <div class="flex-1">
                     <h3>Question <span th:text="${iterStat.index + 1}">1</span></h3>
                     <p class="question-text mt-2" th:text="${question.text}">Question text</p>
-                    <div class="mt-2" style="display: grid; gap: 0.5rem;">
+                    <div class="question-options mt-2">
                         <p><strong>A:</strong> <span th:text="${question.optionA}">Option A</span></p>
                         <p><strong>B:</strong> <span th:text="${question.optionB}">Option B</span></p>
                         <p><strong>C:</strong> <span th:text="${question.optionC}">Option C</span></p>
                         <p><strong>D:</strong> <span th:text="${question.optionD}">Option D</span></p>
                     </div>
-                    <p class="mt-2" style="color: #10b981; font-weight: 600;">
+                    <p class="correct-answer mt-2">
                         Correct Answer: <span th:text="${question.correctAnswer}">A</span>
                     </p>
                 </div>
-                <div style="margin-left: 1rem;">
-                    <form th:action="@{/teacher/question/delete}" method="post" style="display: inline;" 
-                          onsubmit="return confirm('Are you sure you want to delete this question?');">
+                <div class="action-buttons">
+                    <form th:action="@{/teacher/question/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete this question?');">
                         <input type="hidden" name="id" th:value="${question.id}">
                         <input type="hidden" name="quizId" th:value="${quiz.id}">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>

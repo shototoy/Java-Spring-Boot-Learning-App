@@ -1,19 +1,19 @@
 package com.learning.model;
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "quiz_attempts")
 public class QuizAttempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "student_id")
     private Long studentId;
+    @Column(name = "quiz_id")
     private Long quizId;
     private Integer score;
+    @Column(name = "completed_at")
     private LocalDateTime completedAt;
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getStudentId() { return studentId; }

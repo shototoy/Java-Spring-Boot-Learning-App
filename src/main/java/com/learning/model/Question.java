@@ -1,21 +1,24 @@
 package com.learning.model;
-
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "questions")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "quiz_id")
     private Long quizId;
     private String text;
+    @Column(name = "option_a")
     private String optionA;
+    @Column(name = "option_b")
     private String optionB;
+    @Column(name = "option_c")
     private String optionC;
+    @Column(name = "option_d")
     private String optionD;
+    @Column(name = "correct_answer")
     private String correctAnswer;
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getQuizId() { return quizId; }

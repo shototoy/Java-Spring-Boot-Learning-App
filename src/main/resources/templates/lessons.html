@@ -1,30 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lessons</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/config.js}"></script>
-    <script th:src="@{/js/components.js}"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Lessons')}"></head>
 <body>
-    <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
-            <a th:href="@{/student/dashboard}">Dashboard</a>
-            <a th:href="@{/student/results}">My Results</a>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
     <div class="container">
         <div class="mb-2">
-            <a th:href="@{/student/dashboard}" class="back-link">← Back to Dashboard</a>
+            <a th:href="@{/student/dashboard}" class="back-link">? Back to Dashboard</a>
         </div>
-        <div class="page-header">
-            <h1 th:attr="data-subject=${subject}">
+        <div class="page-header" th:attr="data-subject=${subject}">
+            <h1>
                 <span class="subject-icon"></span>
-                <span style="text-transform: capitalize;" th:text="${subject}">Subject</span> Lessons
+                <span class="subject-title" th:text="${subject}">Subject</span> Lessons
             </h1>
         </div>
         <div th:if="${lessons == null or lessons.isEmpty()}" class="card">
@@ -34,16 +20,18 @@
             <h3 th:text="${iterStat.index + 1} + '. ' + ${lesson.title}">Lesson Title</h3>
             <p class="lesson-content mt-2" th:text="${lesson.content}">Lesson content</p>
             <div th:if="${lesson.videoUrl != null and !lesson.videoUrl.isEmpty()}" class="mt-2">
-                <a th:href="${lesson.videoUrl}" target="_blank" class="video-link">Watch Video</a>
+                <a th:href="${lesson.videoUrl}" target="_blank" class="video-link">?? Watch Video</a>
+            </div>
+            <div th:if="${lesson.imagePath != null and !lesson.imagePath.isEmpty()}" class="mt-2">
+                <img th:src="${lesson.imagePath}" alt="Lesson Image" class="lesson-image">
             </div>
         </div>
         <div th:if="${quizzes != null and !quizzes.isEmpty()}" class="mt-4">
             <h2 class="section-title">Available Quizzes</h2>
-            <div th:each="quiz : ${quizzes}" class="card" style="cursor: pointer;" th:onclick="|window.location.href='/student/quiz?id=' + ${quiz.id}|">
-                <h3 th:text="${quiz.title}">Quiz Title</h3>
-                <p class="text-muted">
-                    <span th:text="${quiz.duration}">15</span> minutes
-                </p>
+            <div th:each="quiz : ${quizzes}" class="card clickable">
+                <h4 th:text="${quiz.title}">Quiz Title</h4>
+                <p class="text-muted mt-1"><span th:text="${quiz.duration}">15</span> minutes</p>
+                <a th:href="@{/student/quiz(id=${quiz.id})}" class="btn btn-primary mt-2">Take Quiz</a>
             </div>
         </div>
     </div>

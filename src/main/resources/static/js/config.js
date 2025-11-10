@@ -1,23 +1,28 @@
 const SUBJECTS = {
     math: {
-        name: "Mathematics",
-        icon: "📐",
-        color: "#2563eb",
-        bgColor: "#eff6ff",
-        borderColor: "#2563eb"
+        name: 'Mathematics',
+        icon: '🔢',
+        color: '#3b82f6'
     },
     english: {
-        name: "English",
-        icon: "📚",
-        color: "#10b981",
-        bgColor: "#f0fdf4",
-        borderColor: "#10b981"
+        name: 'English',
+        icon: '📖',
+        color: '#8b5cf6'
     },
     science: {
-        name: "Science",
-        icon: "🔬",
-        color: "#8b5cf6",
-        bgColor: "#f5f3ff",
-        borderColor: "#8b5cf6"
+        name: 'Science',
+        icon: '🔬',
+        color: '#10b981'
     }
+};
+const EMOJIS = {
+    trophy: '🏆',
+    teacher: '👨‍🏫',
+    student: '👥',
+    book: '📚',
+    quiz: '📝',
+    chart: '📊',
+    graduation: '🎓',
+    wave: '👋',
+    video: '📹'
 };

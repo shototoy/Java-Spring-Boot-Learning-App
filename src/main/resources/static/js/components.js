@@ -1,23 +1,24 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-subject]').forEach(el => {
-        const subject = el.dataset.subject;
-        const config = SUBJECTS[subject];
-        if (!config) return;
-        const icon = el.querySelector('.subject-icon');
-        if (icon) {
-            icon.textContent = config.icon;
+document.addEventListener('DOMContentLoaded', function() {
+    const subjectLabels = document.querySelectorAll('.subject-label');
+    subjectLabels.forEach(label => {
+        const subject = label.textContent.trim().toLowerCase();
+        if (subject === 'math' || subject === 'mathematics') {
+            label.setAttribute('data-subject', 'math');
+        } else if (subject === 'english') {
+            label.setAttribute('data-subject', 'english');
+        } else if (subject === 'science') {
+            label.setAttribute('data-subject', 'science');
         }
-        if (el.classList.contains('subject-card')) {
-            el.style.borderColor = config.borderColor;
-            el.style.background = config.bgColor;
-        }
-        const btn = el.querySelector('.btn-primary');
-        if (btn) {
-            btn.style.background = config.color;
-        }
-        const header = el.querySelector('h1, h2, h3');
-        if (header) {
-            header.style.color = config.color;
-        }
+    });
+    const cards = document.querySelectorAll('.card.clickable');
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                const link = card.querySelector('a.btn');
+                if (link) {
+                    link.click();
+                }
+            }
+        });
     });
 });

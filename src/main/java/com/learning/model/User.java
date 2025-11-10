@@ -1,7 +1,5 @@
 package com.learning.model;
-
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -13,7 +11,6 @@ public class User {
     private String password;
     private String role;
     private String section;
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }

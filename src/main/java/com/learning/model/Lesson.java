@@ -1,7 +1,5 @@
 package com.learning.model;
-
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "lessons")
 public class Lesson {
@@ -12,9 +10,12 @@ public class Lesson {
     private String title;
     @Column(length = 5000)
     private String content;
+    @Column(name = "video_url")
     private String videoUrl;
+    @Column(name = "order_num")
     private Integer orderNum;
-
+    @Column(name = "image_path")
+    private String imagePath;
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getSubject() { return subject; }
@@ -27,4 +28,6 @@ public class Lesson {
     public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
     public Integer getOrderNum() { return orderNum; }
     public void setOrderNum(Integer orderNum) { this.orderNum = orderNum; }
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }

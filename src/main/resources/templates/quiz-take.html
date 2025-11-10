@@ -1,27 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Take Quiz</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/layout :: head('Take Quiz')}"></head>
 <body>
-    <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
-            <a th:href="@{/student/dashboard}">Dashboard</a>
-            <a th:href="@{/student/results}">My Results</a>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
     <div class="container">
         <div class="mb-2">
-            <a th:href="@{/student/dashboard}" class="back-link">← Back to Dashboard</a>
+            <a th:href="@{/student/dashboard}" class="back-link">? Back to Dashboard</a>
         </div>
         <div class="card mb-3">
             <h1 th:text="${quiz.title}">Quiz Title</h1>
-            <p class="text-muted">Duration: <span th:text="${quiz.duration}">15</span> minutes</p>
+            <p class="text-muted mt-1">Duration: <span th:text="${quiz.duration}">15</span> minutes</p>
         </div>
         <form th:action="@{/student/quiz/submit}" method="post">
             <input type="hidden" name="quizId" th:value="${quiz.id}">
@@ -47,7 +35,7 @@
                     </label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary w-full" style="padding: 1rem; font-size: 1rem;">Submit Quiz</button>
+            <button type="submit" class="btn btn-primary w-full btn-large">Submit Quiz</button>
         </form>
     </div>
 </body>

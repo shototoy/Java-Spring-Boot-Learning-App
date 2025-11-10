@@ -17,7 +17,8 @@ CREATE TABLE lessons (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     video_url VARCHAR(500),
-    order_num INT NOT NULL
+    order_num INT NOT NULL,
+    image_path VARCHAR(500)
 );
 
 CREATE TABLE quizzes (
@@ -65,16 +66,16 @@ INSERT INTO users (name, email, password, role, section) VALUES
 ('David Lee', 'david@student.com', 'student123', 'STUDENT', 'Section B'),
 ('Sarah Johnson', 'sarah@student.com', 'student123', 'STUDENT', 'Section B');
 
-INSERT INTO lessons (subject, title, content, video_url, order_num) VALUES
-('math', 'Introduction to Fractions', 'A fraction represents a part of a whole. It consists of a numerator (top number) and denominator (bottom number). For example, 1/2 means one part out of two equal parts. Understanding fractions is essential for everyday math, from cooking to measuring distances.', 'https://www.youtube.com/watch?v=example1', 1),
-('math', 'Adding and Subtracting Fractions', 'To add or subtract fractions, they must have the same denominator. If denominators are different, find the least common denominator (LCD). Example: 1/4 + 1/2 = 1/4 + 2/4 = 3/4. Always simplify your answer to its lowest terms.', 'https://www.youtube.com/watch?v=example2', 2),
-('math', 'Multiplying Fractions', 'To multiply fractions, multiply the numerators together and the denominators together. Example: 2/3 × 3/4 = (2×3)/(3×4) = 6/12 = 1/2. Remember to simplify your final answer.', NULL, 3),
-('english', 'Parts of Speech', 'English has eight main parts of speech: nouns, pronouns, verbs, adjectives, adverbs, prepositions, conjunctions, and interjections. Each plays a unique role in sentence structure. Understanding these helps you communicate more effectively.', 'https://www.youtube.com/watch?v=example3', 1),
-('english', 'Writing Complex Sentences', 'Complex sentences contain one independent clause and at least one dependent clause. Example: "Although it was raining, we went to the park." The dependent clause adds detail to the main idea. Using complex sentences makes your writing more sophisticated.', NULL, 2),
-('english', 'Reading Comprehension Strategies', 'Effective reading involves previewing the text, identifying main ideas, making connections, and asking questions. Always read actively by highlighting key points and taking notes. Summarizing paragraphs in your own words helps retain information.', 'https://www.youtube.com/watch?v=example4', 3),
-('science', 'The Water Cycle', 'The water cycle describes how water moves on, above, and below Earth surface. It includes evaporation (water turns to vapor), condensation (vapor becomes clouds), precipitation (rain/snow), and collection (water returns to bodies of water). This cycle is continuous and vital for life.', 'https://www.youtube.com/watch?v=example5', 1),
-('science', 'Plant Photosynthesis', 'Photosynthesis is how plants make food using sunlight, water, and carbon dioxide. Chlorophyll in leaves captures sunlight energy. The process produces glucose (food) and oxygen. Chemical equation: 6CO2 + 6H2O + light energy → C6H12O6 + 6O2.', NULL, 2),
-('science', 'States of Matter', 'Matter exists in three main states: solid, liquid, and gas. Solids have fixed shape and volume. Liquids have fixed volume but take the shape of their container. Gases have neither fixed shape nor volume. Temperature changes can make matter change states.', 'https://www.youtube.com/watch?v=example6', 3);
+INSERT INTO lessons (subject, title, content, video_url, order_num, image_path) VALUES
+('math', 'Introduction to Fractions', 'A fraction represents a part of a whole. It consists of a numerator (top number) and denominator (bottom number). For example, 1/2 means one part out of two equal parts. Understanding fractions is essential for everyday math, from cooking to measuring distances.', 'https://www.youtube.com/watch?v=example1', 1, NULL),
+('math', 'Adding and Subtracting Fractions', 'To add or subtract fractions, they must have the same denominator. If denominators are different, find the least common denominator (LCD). Example: 1/4 + 1/2 = 1/4 + 2/4 = 3/4. Always simplify your answer to its lowest terms.', 'https://www.youtube.com/watch?v=example2', 2, NULL),
+('math', 'Multiplying Fractions', 'To multiply fractions, multiply the numerators together and the denominators together. Example: 2/3 × 3/4 = (2×3)/(3×4) = 6/12 = 1/2. Remember to simplify your final answer.', NULL, 3, NULL),
+('english', 'Parts of Speech', 'English has eight main parts of speech: nouns, pronouns, verbs, adjectives, adverbs, prepositions, conjunctions, and interjections. Each plays a unique role in sentence structure. Understanding these helps you communicate more effectively.', 'https://www.youtube.com/watch?v=example3', 1, NULL),
+('english', 'Writing Complex Sentences', 'Complex sentences contain one independent clause and at least one dependent clause. Example: "Although it was raining, we went to the park." The dependent clause adds detail to the main idea. Using complex sentences makes your writing more sophisticated.', NULL, 2, NULL),
+('english', 'Reading Comprehension Strategies', 'Effective reading involves previewing the text, identifying main ideas, making connections, and asking questions. Always read actively by highlighting key points and taking notes. Summarizing paragraphs in your own words helps retain information.', 'https://www.youtube.com/watch?v=example4', 3, NULL),
+('science', 'The Water Cycle', 'The water cycle describes how water moves on, above, and below Earth surface. It includes evaporation (water turns to vapor), condensation (vapor becomes clouds), precipitation (rain/snow), and collection (water returns to bodies of water). This cycle is continuous and vital for life.', 'https://www.youtube.com/watch?v=example5', 1, NULL),
+('science', 'Plant Photosynthesis', 'Photosynthesis is how plants make food using sunlight, water, and carbon dioxide. Chlorophyll in leaves captures sunlight energy. The process produces glucose (food) and oxygen. Chemical equation: 6CO2 + 6H2O + light energy → C6H12O6 + 6O2.', NULL, 2, NULL),
+('science', 'States of Matter', 'Matter exists in three main states: solid, liquid, and gas. Solids have fixed shape and volume. Liquids have fixed volume but take the shape of their container. Gases have neither fixed shape nor volume. Temperature changes can make matter change states.', 'https://www.youtube.com/watch?v=example6', 3, NULL);
 
 INSERT INTO quizzes (subject, title, duration) VALUES
 ('math', 'Fractions Basics Quiz', 15),
@@ -119,12 +120,17 @@ INSERT INTO questions (quiz_id, text, option_a, option_b, option_c, option_d, co
 INSERT INTO quiz_attempts (student_id, quiz_id, score, completed_at) VALUES
 (2, 1, 4, '2024-11-01 10:30:00'),
 (2, 3, 5, '2024-11-02 14:15:00'),
+(2, 5, 3, '2024-11-03 09:00:00'),
 (3, 1, 5, '2024-11-01 11:00:00'),
 (3, 5, 4, '2024-11-03 09:45:00'),
+(3, 6, 5, '2024-11-04 10:00:00'),
 (4, 2, 7, '2024-11-02 13:20:00'),
 (4, 4, 8, '2024-11-04 10:10:00'),
+(4, 6, 4, '2024-11-05 11:00:00'),
 (5, 3, 4, '2024-11-01 15:30:00'),
-(5, 6, 9, '2024-11-05 11:25:00');
+(5, 6, 9, '2024-11-05 11:25:00'),
+(5, 1, 5, '2024-11-06 14:00:00'),
+(5, 2, 8, '2024-11-07 09:30:00');
 
 INSERT INTO progress (student_id, lesson_id, completion) VALUES
 (2, 1, 100),

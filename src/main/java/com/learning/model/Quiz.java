@@ -1,7 +1,5 @@
 package com.learning.model;
-
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "quizzes")
 public class Quiz {
@@ -11,7 +9,6 @@ public class Quiz {
     private String subject;
     private String title;
     private Integer duration;
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getSubject() { return subject; }
