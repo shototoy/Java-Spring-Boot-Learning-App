@@ -17,49 +17,49 @@
         </div>
     </nav>
     <div class="container">
-        <div class="mb-2">
-            <div class="flex-between align-center mb-4">
-                <a th:href="@{/teacher/dashboard}" class="back-link">← Back to Dashboard</a>
-                <h1 style="margin: 0;">Manage Lessons</h1>
-            </div>
-        <div class="dashboard-layout">
+        <div class="flex-between align-center mb-3" style="gap: 1.5rem;">
+            <h1 style="margin: 0; font-size: 2rem; font-weight: 700; color: #1e293b;">Manage Lessons</h1>
+            <a th:href="@{/teacher/dashboard}" class="back-link">← Back to Dashboard</a>
+        </div>
+        <div class="dashboard-layout" style="align-items: flex-start; grid-template-columns: 2fr 1fr; gap: 2.5rem;">
             <div class="main-content">
-                <h2 class="section-title">All Lessons</h2>
-                <div th:if="${lessons == null or lessons.isEmpty()}" class="card">
+                <h2 class="section-title" style="margin-bottom: 1rem;">All Lessons</h2>
+                <div th:if="${lessons == null or lessons.isEmpty()}" class="card" style="padding: 1.25rem;">
                     <p class="text-center text-muted">No lessons yet. Create your first lesson using the form on the right.</p>
                 </div>
-                <div th:each="lesson : ${lessons}" class="card">
-                    <div class="flex-between">
-                        <div style="flex: 1;">
-                            <h3 th:text="${lesson.title}">Lesson Title</h3>
-                            <p class="text-muted mt-1">
-                                Subject: <span style="text-transform: capitalize;" th:text="${lesson.subject}">math</span> | 
-                                Order: <span th:text="${lesson.orderNum}">1</span>
-                            </p>
-                            <p class="lesson-content mt-2" th:text="${lesson.content}">Content</p>
-                            <div th:if="${lesson.videoUrl != null and !lesson.videoUrl.isEmpty()}" class="mt-2">
-                                <a th:href="${lesson.videoUrl}" target="_blank" class="video-link">
-                                    <svg width="18" height="18"><use href="/images/feather-sprite.svg#icon-eye"></use></svg>
-                                    Watch Video
-                                </a>
+                <div class="advanced-lessons-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div th:each="lesson : ${lessons}" class="card clickable" style="padding: 1.1rem 1.2rem; box-shadow: var(--shadow); border-radius: 10px; min-width: 0;">
+                        <div class="flex-between" style="align-items: flex-start; gap: 1rem;">
+                            <div style="flex: 1; min-width: 0;">
+                                <h3 th:text="${lesson.title}" style="font-size: 1.1rem; color: #0d9488; font-weight: 700; margin-bottom: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Lesson Title</h3>
+                                <div style="font-size: 0.93rem; color: #64748b; margin-bottom: 0.3rem;">
+                                    Subject: <span style="text-transform: capitalize; font-weight: 600; color: #3b82f6;" th:text="${lesson.subject}">math</span> |
+                                    Order: <span th:text="${lesson.orderNum}" style="font-weight: 600; color: #8b5cf6;">1</span>
+                                </div>
+                                <div class="lesson-content mt-1" th:text="${lesson.content}" style="color: #334155; font-size: 0.98rem; line-height: 1.6; margin-bottom: 0.3rem; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis;">Content</div>
+                                <div th:if="${lesson.videoUrl != null and !lesson.videoUrl.isEmpty()}" class="mt-1">
+                                    <a th:href="${lesson.videoUrl}" target="_blank" class="video-link" style="color: #0d9488; font-size: 0.93rem;">
+                                        <svg width="16" height="16"><use href="/images/feather-sprite.svg#icon-eye"></use></svg>
+                                        Watch Video
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex gap-1" style="margin-left: 1rem;">
-                            <form th:action="@{/teacher/lesson/delete}" method="post" style="display: inline;" 
-                                  onsubmit="return confirm('Are you sure you want to delete this lesson?');">
-                                <input type="hidden" name="id" th:value="${lesson.id}">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <svg width="18" height="18"><use href="/images/feather-sprite.svg#icon-trash"></use></svg>
-                                    Delete
-                                </button>
-                            </form>
+                            <div class="flex gap-1" style="margin-left: 0.5rem; align-items: flex-start;">
+                                <form th:action="@{/teacher/lesson/delete}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this lesson?');">
+                                    <input type="hidden" name="id" th:value="${lesson.id}">
+                                    <button type="submit" class="btn btn-danger btn-sm" style="display: flex; align-items: center; gap: 0.3rem;">
+                                        <svg width="16" height="16"><use href="/images/feather-sprite.svg#icon-trash"></use></svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="sidebar">
-                <div class="card" style="margin-bottom: 0; position: sticky; top: 2rem;">
-                    <h3 class="mb-3">Add New Lesson</h3>
+                <div class="card" style="margin-bottom: 0; position: sticky; top: 2rem; box-shadow: var(--shadow-md); border-radius: 10px; padding: 1.5rem 1.25rem; min-width: 270px; max-width: 350px;">
+                    <h3 class="mb-2" style="font-size: 1.1rem; color: #0d9488; font-weight: 700;">Add New Lesson</h3>
                     <form th:action="@{/teacher/lesson/add}" method="post">
                         <div class="form-group">
                             <label>Subject</label>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group">
                             <label>Content</label>
-                            <textarea name="content" rows="5" required placeholder="Lesson content"></textarea>
+                            <textarea name="content" rows="4" required placeholder="Lesson content"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Video URL (Optional)</label>
@@ -85,8 +85,8 @@
                             <label>Order Number</label>
                             <input type="number" name="orderNum" required value="1" min="1">
                         </div>
-                        <button type="submit" class="btn btn-primary w-full">
-                            <svg width="18" height="18"><use href="/images/feather-sprite.svg#icon-plus"></use></svg>
+                        <button type="submit" class="btn btn-primary w-full" style="margin-top: 0.5rem;">
+                            <svg width="16" height="16"><use href="/images/feather-sprite.svg#icon-plus"></use></svg>
                             Add Lesson
                         </button>
                     </form>
