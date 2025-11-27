@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{fragments/layout :: head('Teacher Dashboard')}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade 6 Learning App</title>
@@ -8,12 +8,24 @@
 </head>
 <body>
     <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
-            <a th:href="@{/teacher/dashboard}">Dashboard</a>
-            <a th:href="@{/teacher/lessons}">Manage Lessons</a>
-            <a th:href="@{/teacher/quizzes}">Manage Quizzes</a>
-            <a th:href="@{/logout}">Logout</a>
+        <div class="nav-brand" style="flex: 1; display: flex; align-items: center;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span style="margin-left:.5rem;">Grade 6 Learning</span></div>
+        <div class="nav-menu" style="display:flex; gap:1rem; align-items:center;">
+            <a th:href="@{/teacher/dashboard}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span style="margin-left:.35rem;">Dashboard</span>
+    </a>
+            <a th:href="@{/teacher/lessons}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h11"/><path d="M20 22V6a2 2 0 0 0-2-2H6"/><path d="M4 19.5A4.5 4.5 0 0 1 8.5 15H20"/></svg>
+      <span style="margin-left:.35rem;">Manage Lessons</span>
+    </a>
+            <a th:href="@{/teacher/quizzes}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span style="margin-left:.35rem;">Manage Quizzes</span>
+    </a>
+            <a th:href="@{/logout}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      <span style="margin-left:.35rem;">Logout</span>
+    </a>
         </div>
     </nav>
     <div class="container">

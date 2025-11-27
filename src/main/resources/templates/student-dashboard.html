@@ -27,10 +27,16 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script th:src="@{/js/config.js}"></script>
     <script th:src="@{/js/components.js}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            if (window.feather && feather.replace) feather.replace();
+        });
+    </script>
 </head>
 <body>
     <nav>
-        <div class="nav-brand" style="flex: 1; display: flex; align-items: center;">Grade 6 Learning</div>
+        <div class="nav-brand" style="flex: 1; display: flex; align-items: center;"><i data-feather="book-open"></i> Grade 6 Learning</div>
         <div class="nav-stats" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 1.2rem;">
             <div class="stat-card-vertical" style="background: #fff; box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.3rem 0.7rem 0.4rem 0.7rem; text-align: center; min-width: 70px; min-height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <div class="stat-value" th:text="${totalQuizzes}" style="font-size: 1.05rem; color: #0d9488; font-weight: 800; line-height: 1.1; margin-bottom: 0.1rem;">0</div>
@@ -42,9 +48,18 @@
             </div>
         </div>
         <div class="nav-menu" style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 1.2rem;">
-            <a th:href="@{/student/dashboard}">Dashboard</a>
-            <a th:href="@{/student/results}">My Results</a>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/student/dashboard}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>
+                <span style="margin-left:.35rem;">Dashboard</span>
+            </a>
+            <a th:href="@{/student/results}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M19 9l-5 5-4-4-3 3"/></svg>
+                <span style="margin-left:.35rem;">My Results</span>
+            </a>
+            <a th:href="@{/logout}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+                <span style="margin-left:.35rem;">Logout</span>
+            </a>
         </div>
     </nav>
     <div class="hero-dashboard" style="background: linear-gradient(135deg, #f0fdfa 60%, #3b82f6 100%); border-radius: 0 0 18px 18px; box-shadow: 8px 8px 0 #e5e7eb; padding: 0; margin: 2.5rem 2.5vw 2.5rem 2.5vw; min-height: calc(100vh - 80px - 5rem); height: calc(100vh - 80px - 5rem); width: calc(100vw - 5vw); overflow: hidden; display: flex; align-items: stretch;">
@@ -56,20 +71,20 @@
             <div id="subjectsSidebar" style="display: flex; flex-direction: column; align-items: center; width: 100%; transition: width 0.3s;">
                 <div class="subject-grid" style="display: flex; flex-direction: column; gap: 0; align-items: stretch; width: 100%; padding: 0;">
                     <div class="subject-card clickable" data-subject="math" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
-                        <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #e0f2fe; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                        <div class="subject-icon" style="display: flex; align-items: center; justify-content: center; background: #e0f2fe; align-self: center; margin-bottom: 0; border-radius: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="/images/feather-sprite.svg#icon-square-root"></use></svg>
                         </div>
                         <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #3b82f6; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">Mathematics</span>
                     </div>
                     <div class="subject-card clickable" data-subject="english" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
-                        <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #ede9fe; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                        <div class="subject-icon" style="display: flex; align-items: center; justify-content: center; background: #ede9fe; align-self: center; margin-bottom: 0; border-radius: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="/images/feather-sprite.svg#icon-book-open"></use></svg>
                         </div>
                         <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #8b5cf6; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">English</span>
                     </div>
                     <div class="subject-card clickable" data-subject="science" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
-                        <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #d1fae5; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                        <div class="subject-icon" style="display: flex; align-items: center; justify-content: center; background: #d1fae5; align-self: center; margin-bottom: 0; border-radius: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="/images/feather-sprite.svg#icon-atom"></use></svg>
                         </div>
                         <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #10b981; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">Science</span>
                     </div>
@@ -270,7 +285,7 @@
         const subjectsLabel = document.getElementById('subjectsLabel');
         let sidebarExpanded = false;
         function setSidebarState(expanded) {
-            const iconDivs = document.querySelectorAll('.subject-icon');
+            sidebar.classList.toggle('expanded', expanded);
             if (expanded) {
                 sidebar.style.minWidth = '220px';
                 sidebar.style.maxWidth = '320px';
@@ -281,7 +296,6 @@
                     e.style.display = 'inline';
                     setTimeout(() => { e.style.opacity = '1'; }, 10);
                 });
-                iconDivs.forEach(div => { div.style.maxWidth = '25%'; div.style.width = '22px'; });
             } else {
                 sidebar.style.minWidth = '64px';
                 sidebar.style.maxWidth = '64px';
@@ -292,7 +306,6 @@
                     e.style.opacity = '0';
                     setTimeout(() => { e.style.display = 'none'; }, 250);
                 });
-                iconDivs.forEach(div => { div.style.maxWidth = '100%'; div.style.width = '100%'; });
             }
         }
         sidebarToggle.onclick = function(e) {

@@ -7,21 +7,45 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script th:src="@{/js/config.js}"></script>
     <script th:src="@{/js/components.js}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            if (window.feather && feather.replace) feather.replace();
+        });
+    </script>
 </head>
 <body>
     <!-- Feather Icons SVG Sprite Sheet -->
     <div style="display:none">
         <th:block th:replace="~{/images/feather-sprite.svg}" />
     </div>
-    <nav th:fragment="nav(role)">
-        <div class="nav-brand">Grade 6 Learning</div>
+    <nav th:fragment="nav(role)" th:classappend="${role} == 'STUDENT' ? ' nav--student' : ' nav--teacher'">
+        <div class="nav-brand"><i data-feather="book-open"></i> Grade 6 Learning</div>
         <div class="nav-menu">
-            <a th:if="${role} == 'STUDENT'" th:href="@{/student/dashboard}">Dashboard</a>
-            <a th:if="${role} == 'STUDENT'" th:href="@{/student/results}">My Results</a>
-            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/dashboard}">Dashboard</a>
-            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/lessons}">Manage Lessons</a>
-            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/quizzes}">Manage Quizzes</a>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:if="${role} == 'STUDENT'" th:href="@{/student/dashboard}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>
+                Dashboard
+            </a>
+            <a th:if="${role} == 'STUDENT'" th:href="@{/student/results}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M19 9l-5 5-4-4-3 3"/></svg>
+                My Results
+            </a>
+            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/dashboard}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a>
+            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/lessons}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V6a2 2 0 0 1 2-2h11"/><path d="M20 22V6a2 2 0 0 0-2-2H6"/><path d="M4 19.5A4.5 4.5 0 0 1 8.5 15H20"/></svg>
+                Manage Lessons
+            </a>
+            <a th:if="${role} == 'TEACHER'" th:href="@{/teacher/quizzes}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+                Manage Quizzes
+            </a>
+            <a th:href="@{/logout}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+                Logout
+            </a>
         </div>
     </nav>
 </body>
