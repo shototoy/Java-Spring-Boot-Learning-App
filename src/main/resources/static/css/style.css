@@ -760,6 +760,42 @@ nav {
     }
 }
 .current-user-row { background: #ecfeff; border: 1px dashed #67e8f9; }
+.card[data-subject="math"] { border-left: 4px solid var(--math); }
+.card[data-subject="english"] { border-left: 4px solid var(--english); }
+.card[data-subject="science"] { border-left: 4px solid var(--science); }
+/* Compact quiz question layout to fit more on screen */
+.question-block.card {
+    padding: 0.75rem 0.9rem;
+    margin-bottom: 0.75rem;
+}
+.question-block.card h3 {
+    margin: 0 0 0.35rem 0;
+    font-size: 1rem;
+}
+.question-block .question-text {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
+    color: #334155;
+}
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 6px;
+}
+.option-label input[type="radio"] {
+    margin-top: 0.15rem;
+}
+/* Make submit button tighter too */
+form .btn-large {
+    padding: 0.6rem 0.9rem;
+}
 @media (max-width: 480px) {
     .auth-card {
         padding: 1.5rem;

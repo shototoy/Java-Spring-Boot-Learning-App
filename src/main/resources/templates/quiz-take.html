@@ -7,13 +7,19 @@
         <div class="mb-2">
             <a th:href="@{/student/dashboard}" class="back-link">Back to Dashboard</a>
         </div>
+        <div class="page-header" th:attr="data-subject=${subject}">
+            <h1>
+                <span class="subject-icon"></span>
+                <span class="subject-title" th:text="${subject}">Subject</span>
+                <span th:text="${quiz.title}">Quiz Title</span>
+            </h1>
+        </div>
         <div class="card mb-3">
-            <h1 th:text="${quiz.title}">Quiz Title</h1>
             <p class="text-muted mt-1">Duration: <span th:text="${quiz.duration}">15</span> minutes</p>
         </div>
         <form th:action="@{/student/quiz/submit}" method="post">
             <input type="hidden" name="quizId" th:value="${quiz.id}">
-            <div th:each="question, iterStat : ${questions}" class="question-block">
+            <div th:each="question, iterStat : ${questions}" class="question-block card" th:attr="data-subject=${subject}">
                 <h3>Question <span th:text="${iterStat.index + 1}">1</span></h3>
                 <p class="question-text" th:text="${question.text}">Question text</p>
                 <div class="options-list">

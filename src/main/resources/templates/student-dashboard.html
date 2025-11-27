@@ -55,19 +55,19 @@
             </div>
             <div id="subjectsSidebar" style="display: flex; flex-direction: column; align-items: center; width: 100%; transition: width 0.3s;">
                 <div class="subject-grid" style="display: flex; flex-direction: column; gap: 0; align-items: stretch; width: 100%; padding: 0;">
-                    <div class="subject-card clickable" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
+                    <div class="subject-card clickable" data-subject="math" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
                         <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #e0f2fe; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
                         </div>
                         <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #3b82f6; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">Mathematics</span>
                     </div>
-                    <div class="subject-card clickable" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
+                    <div class="subject-card clickable" data-subject="english" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
                         <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #ede9fe; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
                         </div>
                         <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #8b5cf6; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">English</span>
                     </div>
-                    <div class="subject-card clickable" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
+                    <div class="subject-card clickable" data-subject="science" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
                         <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #d1fae5; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
                         </div>
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </aside>
-        <main style="flex: 2; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 3.5rem 3rem 3rem 3rem; min-width: 0;">
+        <main id="main-content" style="flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 2rem 2rem 1.25rem 2rem; min-width: 0; min-height: 0; overflow-y: auto;">
             <h1 style="font-size: 2.3rem; font-weight: 800; color: #3b82f6; margin-bottom: 0.5rem; letter-spacing: -1px;">Welcome, <span th:text="${userName}">Student</span>!</h1>
             <!-- stat cards moved to navbar -->
             <p style="font-size: 1.15rem; color: #334155; margin-bottom: 1.5rem;">Start learning by choosing a subject from the sidebar. Track your progress and see your recent quiz results.</p>
@@ -138,6 +138,129 @@
         </aside>
     </div>
     <script>
+        // AJAX navigation for main content
+        document.addEventListener('DOMContentLoaded', function() {
+            function postProcessMain(newMain) {
+                // Trim excessive spacing inside injected content and match dashboard main width
+                newMain.style.padding = '0';
+                newMain.style.margin = '0';
+                newMain.style.width = '100%';
+                newMain.style.maxWidth = '100%';
+                // Trim excessive spacing inside injected content
+                newMain.style.paddingBottom = '0';
+                newMain.style.marginBottom = '0';
+                // Remove subject icon in header
+                const headerIcon = newMain.querySelector('.page-header .subject-icon');
+                if (headerIcon) headerIcon.remove();
+
+                // Harmonize header and place Back link on the same line (right-aligned)
+                const header = newMain.querySelector('.page-header h1');
+                if (header) {
+                    // Make header a flex row with space between
+                    header.style.display = 'flex';
+                    header.style.alignItems = 'center';
+                    header.style.justifyContent = 'space-between';
+                    header.style.textAlign = 'left';
+                    header.style.fontSize = '1.4rem';
+                    header.style.marginBottom = '1rem';
+
+                    // Left side: subject title + context (Lessons or Quiz title)
+                    const leftWrap = document.createElement('span');
+                    leftWrap.style.display = 'inline-flex';
+                    leftWrap.style.alignItems = 'baseline';
+                    leftWrap.style.gap = '0.35rem';
+
+                    const subjTitle = newMain.querySelector('.page-header .subject-title');
+                    if (subjTitle) {
+                        subjTitle.style.fontSize = 'inherit';
+                        subjTitle.style.fontWeight = '700';
+                        subjTitle.style.marginRight = '0';
+                        subjTitle.style.textTransform = 'capitalize';
+                        leftWrap.appendChild(subjTitle);
+                    }
+                    // If there's an extra span inside h1 (quiz title), use it; else default to 'Lessons'
+                    const extra = newMain.querySelector('.page-header h1 span:not(.subject-title)');
+                    if (extra) {
+                        extra.style.fontSize = 'inherit';
+                        extra.style.fontWeight = '700';
+                        leftWrap.appendChild(extra);
+                    } else {
+                        const lessonsText = document.createElement('span');
+                        lessonsText.textContent = 'Lessons';
+                        lessonsText.style.fontSize = 'inherit';
+                        lessonsText.style.fontWeight = '700';
+                        leftWrap.appendChild(lessonsText);
+                    }
+
+                    // Right side: move the Back link into header
+                    const backLink = newMain.querySelector('.back-link');
+                    const rightWrap = document.createElement('span');
+                    rightWrap.style.marginLeft = 'auto';
+                    rightWrap.style.display = 'inline-flex';
+                    rightWrap.style.alignItems = 'center';
+                    if (backLink) {
+                        backLink.style.fontSize = '0.95rem';
+                        backLink.style.color = '#3b82f6';
+                        backLink.style.textDecoration = 'none';
+                        backLink.style.fontWeight = '700';
+                        const backContainer = backLink.parentElement;
+                        rightWrap.appendChild(backLink);
+                        if (backContainer && backContainer.parentElement) {
+                            backContainer.parentElement.removeChild(backContainer);
+                        }
+                    }
+
+                    while (header.firstChild) header.removeChild(header.firstChild);
+                    header.appendChild(leftWrap);
+                    if (rightWrap.childNodes.length) header.appendChild(rightWrap);
+                }
+
+                const main = document.getElementById('main-content');
+                main.innerHTML = '';
+                main.appendChild(newMain);
+                main.scrollTop = 0;
+            }
+            // Intercept subject sidebar clicks
+            document.getElementById('subjectsSidebar').addEventListener('click', function(e) {
+                let target = e.target;
+                while (target && !target.classList.contains('subject-card')) {
+                    target = target.parentElement;
+                }
+                if (target && target.classList.contains('subject-card')) {
+                    e.preventDefault();
+                    const subject = target.getAttribute('data-subject');
+                    fetch(`/student/lessons?subject=${encodeURIComponent(subject)}`)
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newMain = doc.querySelector('.container');
+                            if (newMain) {
+                                postProcessMain(newMain);
+                            }
+                        });
+                }
+            });
+
+            // Delegate quiz clicks (after lessons loaded)
+            document.getElementById('main-content').addEventListener('click', function(e) {
+                let target = e.target;
+                if (target.tagName === 'A' && target.classList.contains('btn-primary') && target.href.includes('/student/quiz')) {
+                    e.preventDefault();
+                    fetch(target.href)
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newMain = doc.querySelector('.container');
+                            if (newMain) {
+                                // Apply same layout rules as lessons
+                                postProcessMain(newMain);
+                            }
+                        });
+                }
+            });
+        });
         // Discord-style collapsible sidebar
         const sidebar = document.getElementById('subjectSidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');

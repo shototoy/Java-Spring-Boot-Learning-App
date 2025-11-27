@@ -117,6 +117,7 @@ public class StudentController {
         List<Question> questions = questionRepo.findByQuizId(id);
         Collections.shuffle(questions);
         model.addAttribute("quiz", quiz);
+        model.addAttribute("subject", quiz.getSubject());
         model.addAttribute("questions", questions);
         return "quiz-take";
     }
