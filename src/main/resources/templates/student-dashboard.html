@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+            <style>
+                .subject-name {
+                    transition: opacity 0.25s cubic-bezier(.4,0,.2,1);
+                }
+                .subject-icon {
+                    transition: max-width 0.3s, width 0.3s;
+                }
+            </style>
+        <style>
+            html, body {
+                height: 100%;
+                min-height: 100%;
+                overflow: hidden;
+            }
+            body {
+                height: 100vh;
+                min-height: 100vh;
+                margin: 0;
+            }
+        </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
@@ -10,59 +30,113 @@
 </head>
 <body>
     <nav>
-        <div class="nav-brand">Grade 6 Learning</div>
-        <div class="nav-menu">
+        <div class="nav-brand" style="flex: 1; display: flex; align-items: center;">Grade 6 Learning</div>
+        <div class="nav-stats" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 1.2rem;">
+            <div class="stat-card-vertical" style="background: #fff; box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.3rem 0.7rem 0.4rem 0.7rem; text-align: center; min-width: 70px; min-height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div class="stat-value" th:text="${totalQuizzes}" style="font-size: 1.05rem; color: #0d9488; font-weight: 800; line-height: 1.1; margin-bottom: 0.1rem;">0</div>
+                <span style="color: #3b82f6; font-size: 0.82rem; font-weight: 600; line-height: 1.1; margin-top: 0.1rem;">Quizzes Taken</span>
+            </div>
+            <div class="stat-card-vertical" style="background: #fff; box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.3rem 0.7rem 0.4rem 0.7rem; text-align: center; min-width: 70px; min-height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div class="stat-value" th:text="${totalLessons}" style="font-size: 1.05rem; color: #0d9488; font-weight: 800; line-height: 1.1; margin-bottom: 0.1rem;">0</div>
+                <span style="color: #3b82f6; font-size: 0.82rem; font-weight: 600; line-height: 1.1; margin-top: 0.1rem;">Lessons Completed</span>
+            </div>
+        </div>
+        <div class="nav-menu" style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 1.2rem;">
             <a th:href="@{/student/dashboard}">Dashboard</a>
             <a th:href="@{/student/results}">My Results</a>
             <a th:href="@{/logout}">Logout</a>
         </div>
     </nav>
-    <div class="container">
-        <div class="page-header">
-            <h1>Welcome, <span th:text="${userName}">Student</span></h1>
-        </div>
-        <div class="dashboard-layout">
-            <div class="main-content">
-                <h2 class="section-title">Choose a Subject</h2>
-                <div class="subject-grid-full">
-                    <div class="subject-card" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|">
-                        <div class="subject-icon"></div>
-                        <h3>Mathematics</h3>
-                        <button class="btn btn-primary">View Lessons</button>
-                    </div>
-                    <div class="subject-card" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|">
-                        <div class="subject-icon"></div>
-                        <h3>English</h3>
-                        <button class="btn btn-primary">View Lessons</button>
-                    </div>
-                    <div class="subject-card" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|">
-                        <div class="subject-icon"></div>
-                        <h3>Science</h3>
-                        <button class="btn btn-primary">View Lessons</button>
-                    </div>
-                </div>
+    <div class="hero-dashboard" style="background: linear-gradient(135deg, #f0fdfa 60%, #3b82f6 100%); border-radius: 0 0 18px 18px; box-shadow: 8px 8px 0 #e5e7eb; padding: 0; margin: 2.5rem 2.5vw 2.5rem 2.5vw; min-height: calc(100vh - 80px - 5rem); height: calc(100vh - 80px - 5rem); width: calc(100vw - 5vw); overflow: hidden; display: flex; align-items: stretch;">
+        <aside id="subjectSidebar" class="sidebar-collapsible" style="background: #fff; min-width: 64px; max-width: 320px; border-right: 1px solid #e0e7ef; display: flex; flex-direction: column; align-items: center; transition: min-width 0.3s, max-width 0.3s, width 0.3s; width: 64px; overflow: visible; position: relative;">
+            <div id="sidebarToggle" style="width: 100%; display: flex; align-items: center; justify-content: flex-start; height: 64px; cursor: pointer; border-bottom: 1px solid #e0e7ef; padding-left: 1.2rem; gap: 0.7rem;">
+                <svg id="sidebarToggleIcon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <span id="subjectsLabel" style="display: none; font-weight: 700; color: #3b82f6; font-size: 1.1rem;">My Subjects</span>
             </div>
-            <div class="sidebar">
-                <div class="stat-card-vertical">
-                    <h4>Quizzes Taken</h4>
-                    <div class="stat-value" th:text="${totalQuizzes}">0</div>
-                </div>
-                <div class="stat-card-vertical">
-                    <h4>Lessons Completed</h4>
-                    <div class="stat-value" th:text="${totalLessons}">0</div>
-                </div>
-                <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}">
-                    <h3 class="sidebar-title">Recent Results</h3>
-                    <div th:each="attempt : ${recentAttempts}" class="result-card">
-                        <div class="result-header">
-                            <h4>Quiz #<span th:text="${attempt.quizId}">1</span></h4>
-                            <span class="result-score" th:text="${attempt.score}">0</span>
+            <div id="subjectsSidebar" style="display: flex; flex-direction: column; align-items: center; width: 100%; transition: width 0.3s;">
+                <div class="subject-grid" style="display: flex; flex-direction: column; gap: 0; align-items: stretch; width: 100%; padding: 0;">
+                    <div class="subject-card clickable" data-subject="math" th:onclick="|window.location.href='/student/lessons?subject=math'|" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
+                        <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #e0f2fe; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
                         </div>
-                        <p class="result-date" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}">Date</p>
+                        <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #3b82f6; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">Mathematics</span>
+                    </div>
+                    <div class="subject-card clickable" data-subject="english" th:onclick="|window.location.href='/student/lessons?subject=english'|" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
+                        <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #ede9fe; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                        </div>
+                        <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #8b5cf6; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">English</span>
+                    </div>
+                    <div class="subject-card clickable" data-subject="science" th:onclick="|window.location.href='/student/lessons?subject=science'|" style="box-shadow: var(--shadow-md); border-radius: 10px; padding: 0.5rem 0; display: flex; align-items: center; width: 100%; min-width: 44px; cursor: pointer;">
+                        <div class="subject-icon" style="flex: 1 1 0; max-width: 25%; display: flex; align-items: center; justify-content: center; width: 22px; background: #d1fae5; align-self: center; margin-bottom: 0; border-radius: 0; transition: max-width 0.3s, width 0.3s;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                        </div>
+                        <span class="subject-name" style="flex: 3 1 0; max-width: 75%; display: flex; align-items: center; color: #10b981; font-size: 1.08rem; font-weight: 600; margin-left: 0.5rem; text-align: left;">Science</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </aside>
+        <main style="flex: 2; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 3.5rem 3rem 3rem 3rem; min-width: 0;">
+            <h1 style="font-size: 2.3rem; font-weight: 800; color: #3b82f6; margin-bottom: 0.5rem; letter-spacing: -1px;">Welcome, <span th:text="${userName}">Student</span>!</h1>
+            <!-- stat cards moved to navbar -->
+            <p style="font-size: 1.15rem; color: #334155; margin-bottom: 1.5rem;">Start learning by choosing a subject from the sidebar. Track your progress and see your recent quiz results.</p>
+        </main>
+        <aside style="background: #fff; min-width: 270px; max-width: 350px; border-left: 1px solid #e0e7ef; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; box-shadow: var(--shadow-md);">
+                <h3 class="sidebar-title" style="color: #3b82f6; font-size: 1.1rem; font-weight: 700; margin: 2.5rem 1.5rem 1.2rem 1.5rem;">Recent Results</h3>
+                <div th:if="${recentAttempts != null and !recentAttempts.isEmpty()}">
+                    <div th:each="attempt : ${recentAttempts}" class="result-card" style="margin-bottom: 1.2rem; background: #f0fdfa; border-radius: 8px; padding: 1rem 1.2rem; box-shadow: var(--shadow);">
+                        <div class="result-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="font-size: 1rem; color: #0d9488;">Quiz #<span th:text="${attempt.quizId}">1</span></h4>
+                            <span class="result-score" th:text="${attempt.score}" style="font-size: 1.3rem; color: #3b82f6; font-weight: 700;">0</span>
+                        </div>
+                        <p class="result-date" th:text="${#temporals.format(attempt.completedAt, 'MMM dd, yyyy HH:mm')}" style="font-size: 0.95rem; color: #64748b;">Date</p>
+                    </div>
+                    <div th:if="${recentAttempts == null or recentAttempts.isEmpty()}" style="color: #64748b; font-size: 0.98rem; text-align: center;">No recent results yet.</div>
+                </div>
+        </aside>
     </div>
+    <script>
+        // Discord-style collapsible sidebar
+        const sidebar = document.getElementById('subjectSidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarToggleIcon = document.getElementById('sidebarToggleIcon');
+        const subjectsSidebar = document.getElementById('subjectsSidebar');
+        const subjectNames = document.querySelectorAll('.subject-name');
+        const subjectsLabel = document.getElementById('subjectsLabel');
+        let sidebarExpanded = false;
+        function setSidebarState(expanded) {
+            const iconDivs = document.querySelectorAll('.subject-icon');
+            if (expanded) {
+                sidebar.style.minWidth = '220px';
+                sidebar.style.maxWidth = '320px';
+                sidebar.style.width = '220px';
+                subjectsSidebar.style.alignItems = 'flex-start';
+                document.getElementById('subjectsLabel').style.display = 'inline';
+                subjectNames.forEach(e => {
+                    e.style.display = 'inline';
+                    setTimeout(() => { e.style.opacity = '1'; }, 10);
+                });
+                iconDivs.forEach(div => { div.style.maxWidth = '25%'; div.style.width = '22px'; });
+            } else {
+                sidebar.style.minWidth = '64px';
+                sidebar.style.maxWidth = '64px';
+                sidebar.style.width = '64px';
+                subjectsSidebar.style.alignItems = 'center';
+                document.getElementById('subjectsLabel').style.display = 'none';
+                subjectNames.forEach(e => {
+                    e.style.opacity = '0';
+                    setTimeout(() => { e.style.display = 'none'; }, 250);
+                });
+                iconDivs.forEach(div => { div.style.maxWidth = '100%'; div.style.width = '100%'; });
+            }
+        }
+        sidebarToggle.onclick = function(e) {
+            sidebarExpanded = !sidebarExpanded;
+            setSidebarState(sidebarExpanded);
+        };
+        // Only expand/collapse on toggle click
+        // Start collapsed by default
+        setSidebarState(false);
+    </script>
 </body>
 </html>
