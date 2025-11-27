@@ -17,40 +17,49 @@
         </div>
     </nav>
     <div class="container">
-        <div class="page-header">
-            <h1>Grade 6 Learning App</h1>
-        </div>
-        <div class="dashboard-layout">
-            <div class="main-content">
-                <h2 class="section-title">Quick Actions</h2>
-                <div class="action-grid">
-                    <div class="action-card" th:onclick="|window.location.href='/teacher/lessons'|">
-                        <div class="action-icon"><svg width="24" height="24"><use href="/images/feather-sprite.svg#icon-eye"></use></svg></div>
-                        <h3>Manage Lessons</h3>
-                        <p>Add, edit, or delete lessons</p>
-                    </div>
-                    <div class="action-card" th:onclick="|window.location.href='/teacher/quizzes'|">
-                        <div class="action-icon"><svg width="24" height="24"><use href="/images/feather-sprite.svg#icon-edit"></use></svg></div>
-                        <h3>Manage Quizzes</h3>
-                        <p>Create and manage quizzes</p>
-                    </div>
+        <section class="hero-dashboard" style="background: linear-gradient(135deg, #f0fdfa 60%, #14b8a6 100%); border-radius: 18px; box-shadow: 0 8px 32px rgba(20,184,166,0.08); padding: 2.5rem 2rem 2rem 2rem; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap;">
+            <div style="flex: 2; min-width: 260px;">
+                <h1 style="font-size: 2.5rem; font-weight: 800; color: #0d9488; margin-bottom: 0.5rem; letter-spacing: -1px;">Welcome, Teacher!</h1>
+                <p style="font-size: 1.25rem; color: #334155; margin-bottom: 1.5rem;">Manage your classes, lessons, and quizzes with ease. Track student progress and keep your content up to date.</p>
+                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a th:href="@{/teacher/lessons}" class="btn btn-primary btn-large" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="22" height="22"><use href="/images/feather-sprite.svg#icon-eye"></use></svg> Manage Lessons
+                    </a>
+                    <a th:href="@{/teacher/quizzes}" class="btn btn-secondary btn-large" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="22" height="22"><use href="/images/feather-sprite.svg#icon-edit"></use></svg> Manage Quizzes
+                    </a>
                 </div>
             </div>
-            <div class="sidebar">
-                <div class="stat-card-vertical">
-                    <h4>Total Lessons</h4>
-                    <div class="stat-value" th:text="${totalLessons}">0</div>
+            <div style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 1.25rem;">
+                <div class="stat-card-vertical" style="background: #fff; box-shadow: var(--shadow-md); border-radius: 14px; padding: 1.5rem; text-align: center;">
+                    <h4 style="color: #0d9488; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Total Lessons</h4>
+                    <div class="stat-value" th:text="${totalLessons}" style="font-size: 2.2rem; color: #14b8a6; font-weight: 800;">0</div>
                 </div>
-                <div class="stat-card-vertical">
-                    <h4>Total Quizzes</h4>
-                    <div class="stat-value" th:text="${totalQuizzes}">0</div>
+                <div class="stat-card-vertical" style="background: #fff; box-shadow: var(--shadow-md); border-radius: 14px; padding: 1.5rem; text-align: center;">
+                    <h4 style="color: #0d9488; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Total Quizzes</h4>
+                    <div class="stat-value" th:text="${totalQuizzes}" style="font-size: 2.2rem; color: #14b8a6; font-weight: 800;">0</div>
                 </div>
-                <div class="stat-card-vertical">
-                    <h4>Total Students</h4>
-                    <div class="stat-value" th:text="${totalStudents}">0</div>
+                <div class="stat-card-vertical" style="background: #fff; box-shadow: var(--shadow-md); border-radius: 14px; padding: 1.5rem; text-align: center;">
+                    <h4 style="color: #0d9488; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Total Students</h4>
+                    <div class="stat-value" th:text="${totalStudents}" style="font-size: 2.2rem; color: #14b8a6; font-weight: 800;">0</div>
                 </div>
             </div>
-        </div>
+        </section>
+        <section style="margin-top: 2rem;">
+            <h2 class="section-title" style="font-size: 1.5rem; color: #0d9488; font-weight: 700; margin-bottom: 1.5rem;">Quick Actions</h2>
+            <div class="action-grid" style="gap: 2.5rem;">
+                <div class="action-card clickable" th:onclick="|window.location.href='/teacher/lessons'|" style="border: 2px solid #14b8a6; box-shadow: var(--shadow-lg);">
+                    <div class="action-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%);"><svg width="32" height="32"><use href="/images/feather-sprite.svg#icon-eye"></use></svg></div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #0d9488;">Manage Lessons</h3>
+                    <p style="color: #334155;">Add, edit, or delete lessons for your students.</p>
+                </div>
+                <div class="action-card clickable" th:onclick="|window.location.href='/teacher/quizzes'|" style="border: 2px solid #14b8a6; box-shadow: var(--shadow-lg);">
+                    <div class="action-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #14b8a6 100%);"><svg width="32" height="32"><use href="/images/feather-sprite.svg#icon-edit"></use></svg></div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #0d9488;">Manage Quizzes</h3>
+                    <p style="color: #334155;">Create and manage quizzes for your classes.</p>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>
