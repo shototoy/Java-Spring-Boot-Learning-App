@@ -86,22 +86,38 @@
             <div class="leaderboard" style="margin: 0 1.5rem 2.2rem 1.5rem;">
                 <table style="width: 100%; border-collapse: separate; border-spacing: 0 0.5rem;">
                     <tbody>
-                        <tr th:each="entry,iter : ${leaderboard}" th:if="${iter.index} < 3" th:classappend="${entry.isCurrentUser} ? 'current-user-row' : ''" style="background: #f0fdfa; border-radius: 8px; font-weight: 700;">
-                            <td style="width: 2.5rem; text-align: center; color: #3b82f6; font-size: 1.1rem;" th:text="${entry.rank}">1</td>
-                            <td style="color: #0d9488; font-size: 1.05rem;" th:text="${entry.name}">Name</td>
-                            <td style="text-align: right; color: #64748b; font-size: 1.05rem;" th:text="${entry.avgScore + '%'}">0%</td>
+                        <!-- Top 3 rows (or fewer if less students) -->
+                        <tr th:each="entry,iter : ${leaderboard}" th:if="${iter.index} < 3" th:classappend="${entry.isCurrentUser} ? ' current-user-row' : ''" style="border-radius: 8px; font-weight: 700;">
+                            <td style="width: 2.5rem; text-align: center;">
+                                <span th:switch="${entry.rank}">
+                                    <span th:case="1" class="lb-badge gold">1</span>
+                                    <span th:case="2" class="lb-badge silver">2</span>
+                                    <span th:case="3" class="lb-badge bronze">3</span>
+                                    <span th:case="*" class="lb-badge">[[${entry.rank}]]</span>
+                                </span>
+                            </td>
+                            <td style="color: #0d9488; font-size: 1.05rem; display: flex; align-items: center; gap: .4rem;">
+                                <span th:if="${entry.isCurrentUser}" class="you-pill">You</span>
+                                <span th:if="${!entry.isCurrentUser}" th:text="${entry.name}">Name</span>
+                            </td>
+                            <td style="text-align: right; color: #64748b; font-size: 1.05rem;" th:text="${#numbers.formatDecimal(entry.avgScore, 1, 2) + '%'}">0%</td>
                         </tr>
-                        <!-- Fill missing rows with gray and ellipsis if less than 3 -->
-                        <tr th:each="i : ${#numbers.sequence(leaderboard.size() + 1, 3)}" style="background: #e5e7eb; border-radius: 8px; font-weight: 700; color: #a3a3a3;">
-                            <td style="width: 2.5rem; text-align: center; font-size: 1.1rem;">...</td>
-                            <td style="font-size: 1.05rem;">...</td>
-                            <td style="text-align: right; font-size: 1.05rem;">...</td>
+                        <!-- Placeholder rows to fill up to 3 if needed -->
+                        <tr th:if="${#lists.size(leaderboard) < 3}" th:each="i : ${#numbers.sequence(1, 3 - #lists.size(leaderboard))}" style="background: #f3f4f6; border-radius: 8px; font-weight: 700; opacity: 0.85;">
+                            <td style="width: 2.5rem; text-align: center; color: #94a3b8; font-size: 1.1rem;">—</td>
+                            <td style="color: #94a3b8; font-size: 1.05rem;">No data</td>
+                            <td style="text-align: right; color: #94a3b8; font-size: 1.05rem;">—</td>
                         </tr>
-                        <!-- Show current user if not in top 3 -->
-                        <tr th:if="${leaderboard.size() > 3}" th:with="entry=${leaderboard.get(3)}" style="background: #fef9c3; border-radius: 8px; font-weight: 700;">
-                            <td style="width: 2.5rem; text-align: center; color: #eab308; font-size: 1.1rem;" th:text="${entry.rank}">4</td>
-                            <td style="color: #0d9488; font-size: 1.05rem;" th:text="${entry.name}">You</td>
-                            <td style="text-align: right; color: #64748b; font-size: 1.05rem;" th:text="${entry.avgScore + '%'}">0%</td>
+                        <!-- Current user row as 4th if not in top 3 -->
+                        <tr th:if="${#lists.size(leaderboard) > 3}" th:with="entry=${leaderboard[3]}" th:classappend="${entry.isCurrentUser} ? ' current-user-row' : ''" style="border-radius: 8px; font-weight: 700;">
+                            <td style="width: 2.5rem; text-align: center;">
+                                <span class="lb-badge">[[${entry.rank}]]</span>
+                            </td>
+                            <td style="color: #0ea5e9; font-size: 1.05rem; display: flex; align-items: center; gap: .4rem;">
+                                <span th:text="${entry.name}">You</span>
+                                <span class="you-pill">You</span>
+                            </td>
+                            <td style="text-align: right; color: #64748b; font-size: 1.05rem;" th:text="${#numbers.formatDecimal(entry.avgScore, 1, 2) + '%'}">—%</td>
                         </tr>
                     </tbody>
                 </table>

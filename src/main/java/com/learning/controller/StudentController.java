@@ -51,27 +51,46 @@ public class StudentController {
     }
     private List<LeaderboardEntry> getLeaderboardWithCurrentUser(Long userId) {
         List<Object[]> results = userRepo.findLeaderboard();
+        int totalQuizzesAvailable = (int) quizRepo.count();
         List<LeaderboardEntry> entries = new ArrayList<>();
         int rank = 1;
         LeaderboardEntry currentUserEntry = null;
         for (Object[] row : results) {
+            int attemptsCount = row[3] != null ? ((Number) row[3]).intValue() : 0;
+            int totalScore = row[4] != null ? ((Number) row[4]).intValue() : 0;
+            double avgAcrossAll = 0.0;
+            if (totalQuizzesAvailable > 0) {
+                avgAcrossAll = (double) totalScore / (double) totalQuizzesAvailable;
+            }
             LeaderboardEntry entry = new LeaderboardEntry(
                 ((Number) row[0]).longValue(),
                 (String) row[1],
                 (String) row[2],
-                row[3] != null ? ((Number) row[3]).intValue() : 0,
-                row[4] != null ? ((Number) row[4]).intValue() : 0,
-                row[5] != null ? ((Number) row[5]).doubleValue() : 0.0
+                attemptsCount,
+                totalScore,
+                avgAcrossAll
             );
-            entry.setRank(rank++);
+            entry.setRank(rank);
             entry.setIsCurrentUser(entry.getId().equals(userId));
             if (entry.getIsCurrentUser()) {
                 currentUserEntry = entry;
             }
             entries.add(entry);
+            rank++;
         }
-        List<LeaderboardEntry> displayList = entries.stream().limit(3).collect(Collectors.toList());
-        if (currentUserEntry != null && currentUserEntry.getRank() > 3) {
+        // Only top 3 or fewer if less students
+        List<LeaderboardEntry> displayList = new ArrayList<>();
+        int maxRows = Math.min(3, entries.size());
+        boolean userInTop = false;
+        for (int i = 0; i < maxRows; i++) {
+            LeaderboardEntry entry = entries.get(i);
+            displayList.add(entry);
+            if (entry.getIsCurrentUser()) {
+                userInTop = true;
+            }
+        }
+        // If current user is not in top 3 and exists in the list, add as 4th row
+        if (!userInTop && currentUserEntry != null) {
             displayList.add(currentUserEntry);
         }
         return displayList;

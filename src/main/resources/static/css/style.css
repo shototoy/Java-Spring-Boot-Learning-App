@@ -759,6 +759,7 @@ nav {
         font-size: 2rem;
     }
 }
+.current-user-row { background: #ecfeff; border: 1px dashed #67e8f9; }
 @media (max-width: 480px) {
     .auth-card {
         padding: 1.5rem;
@@ -766,11 +767,13 @@ nav {
     .subject-icon {
         width: 60px;
         height: 60px;
-        font-size: 2rem;
     }
+    .subject-icon svg { width: 34px; height: 34px; }
     .action-icon {
         width: 60px;
         height: 60px;
-        font-size: 2.5rem;
     }
+    .action-icon svg { width: 32px; height: 32px; }
+    .lb-badge { width: 24px; height: 24px; font-size: 0.9rem; }
+    .you-pill { font-size: 0.68rem; }
 }
