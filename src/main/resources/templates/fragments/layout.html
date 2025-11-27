@@ -9,8 +9,12 @@
     <script th:src="@{/js/components.js}"></script>
 </head>
 <body>
+    <!-- Feather Icons SVG Sprite Sheet -->
+    <div style="display:none">
+        <th:block th:replace="~{/images/feather-sprite.svg}" />
+    </div>
     <nav th:fragment="nav(role)">
-        <div class="nav-brand">?? Grade 6 Learning</div>
+        <div class="nav-brand">Grade 6 Learning</div>
         <div class="nav-menu">
             <a th:if="${role} == 'STUDENT'" th:href="@{/student/dashboard}">Dashboard</a>
             <a th:if="${role} == 'STUDENT'" th:href="@{/student/results}">My Results</a>

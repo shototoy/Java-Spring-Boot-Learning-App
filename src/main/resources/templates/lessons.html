@@ -5,7 +5,7 @@
     <nav th:replace="~{fragments/layout :: nav('STUDENT')}"></nav>
     <div class="container">
         <div class="mb-2">
-            <a th:href="@{/student/dashboard}" class="back-link">? Back to Dashboard</a>
+            <a th:href="@{/student/dashboard}" class="back-link">Back to Dashboard</a>
         </div>
         <div class="page-header" th:attr="data-subject=${subject}">
             <h1>
@@ -20,7 +20,7 @@
             <h3 th:text="${iterStat.index + 1} + '. ' + ${lesson.title}">Lesson Title</h3>
             <p class="lesson-content mt-2" th:text="${lesson.content}">Lesson content</p>
             <div th:if="${lesson.videoUrl != null and !lesson.videoUrl.isEmpty()}" class="mt-2">
-                <a th:href="${lesson.videoUrl}" target="_blank" class="video-link">?? Watch Video</a>
+                <a th:href="${lesson.videoUrl}" target="_blank" class="video-link">Watch Video</a>
             </div>
             <div th:if="${lesson.imagePath != null and !lesson.imagePath.isEmpty()}" class="mt-2">
                 <img th:src="${lesson.imagePath}" alt="Lesson Image" class="lesson-image">

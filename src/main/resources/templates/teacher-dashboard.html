@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard</title>
+    <title>Grade 6 Learning App</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -18,19 +18,19 @@
     </nav>
     <div class="container">
         <div class="page-header">
-            <h1>Teacher Dashboard</h1>
+            <h1>Grade 6 Learning App</h1>
         </div>
         <div class="dashboard-layout">
             <div class="main-content">
                 <h2 class="section-title">Quick Actions</h2>
                 <div class="action-grid">
                     <div class="action-card" th:onclick="|window.location.href='/teacher/lessons'|">
-                        <div class="action-icon">📚</div>
+                        <div class="action-icon"><svg width="24" height="24"><use href="/images/feather-sprite.svg#icon-eye"></use></svg></div>
                         <h3>Manage Lessons</h3>
                         <p>Add, edit, or delete lessons</p>
                     </div>
                     <div class="action-card" th:onclick="|window.location.href='/teacher/quizzes'|">
-                        <div class="action-icon">📝</div>
+                        <div class="action-icon"><svg width="24" height="24"><use href="/images/feather-sprite.svg#icon-edit"></use></svg></div>
                         <h3>Manage Quizzes</h3>
                         <p>Create and manage quizzes</p>
                     </div>
